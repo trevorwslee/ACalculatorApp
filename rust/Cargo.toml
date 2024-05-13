@@ -1,0 +1,23 @@
+[package]
+name = "dumb_calculator"
+version = "0.1.0"
+edition = "2021"
+
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+wasm-bindgen = "0.2.92"
+#rusty_dumb_tools = "0.1.11"
+rusty_dumb_tools = {version = "0.1.11", path = "../../../Rust/rusty_dumb_tools/" }
+
+[dependencies.web-sys]
+version = "0.3.4"
+features = [
+  'Document',
+  'Element',
+  'HtmlElement',
+  'Node',
+  'Window',
+]

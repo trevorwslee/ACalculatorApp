@@ -1,0 +1,72 @@
+<html>
+  <body>
+    <script type="module">
+      import init, {
+        get_greeting,
+        Calculator
+      } from './pkg/dumb_calculator.js';
+      let calculator = null;  // for this module use ... for testing
+      async function load() {
+          await init();
+          calculator = Calculator.new(5);  // for testing in this module
+          let greet = get_greeting("World");
+          document.getElementById('status').innerText = greet;
+          window.Calculator = Calculator;
+      }
+      load();
+      // function calc_something() {
+      //   calculator.push("2");
+      //   calculator.push("+");
+      //   calculator.push("2");
+      //   calculator.push("=");
+      //   let history = calculator.get_history();
+      //   let display = calculator.get_display();
+      //   document.getElementById('status').innerText = history + " ... " + display;
+      // }
+      // function calc_undo() {
+      //   calculator.undo();
+      //   let history = calculator.get_history();
+      //   let display = calculator.get_display();
+      //   document.getElementById('status').innerText = history + " ... " + display;
+      // }
+      // function calc_reset() {
+      //   calculator.reset();
+      //   let display = calculator.get_display();
+      //   document.getElementById('status').innerText = display;
+      // }
+      // window.calc_something = calc_something;
+      // window.calc_undo = calc_undo;
+      // window.calc_reset = calc_reset;
+    </script>
+    <script>
+      function _sync_calc() {
+        let history = calc.get_history();
+        let display = calc.get_display();
+        let elem = document.getElementById('status');
+        elem.innerText = history;
+        elem.innerHTML += " &mdash; ";
+        elem.innerText += display;
+      }
+      function new_calc() {
+        calc = Calculator.new(5);
+        _sync_calc();
+      }
+    </script>
+    <div>
+      <div id="status" style="width:100%;height:1.5em;border-style:solid">... loading ...</div>
+    </div>
+    <div>
+      <button onclick="new_calc()">new</button>
+      <button onclick="calc.push('1'); _sync_calc();">1</button>
+      <button onclick="calc.push('+'); _sync_calc();">+</button>
+      <button onclick="calc.push('2'); _sync_calc();">2</button>
+      <button onclick="calc.push('='); _sync_calc();">=</button>
+      <button onclick="calc.undo(); _sync_calc();">undo</button>
+    </div>
+    <!-- <div>
+      <button onclick="calc_something()">2+2</button>
+      <button onclick="calc_undo()">UNDO</button>
+      <button onclick="calc_reset()">RESET</button>
+    <div> -->
+  </body>
+</html>
