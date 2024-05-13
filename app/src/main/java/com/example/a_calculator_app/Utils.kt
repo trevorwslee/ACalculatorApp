@@ -249,12 +249,12 @@ fun onKeyPressed(
             bridgeWebView.reload()
             return
         }
-        //val js = "$CALC_JS_VAR.push('${key}')"
-        val js = if (key == "undo") {
-            "$CALC_JS_VAR.undo()"
-        } else {
-            "$CALC_JS_VAR.push('${key}')"
-        }
+        val js = "$CALC_JS_VAR.push('${key}')"
+//        val js = if (key == "undo") {
+//            "$CALC_JS_VAR.undo()"
+//        } else {
+//            "$CALC_JS_VAR.push('${key}')"
+//        }
         bridgeWebView.evaluateJavascript(js) {
             syncDisplay(bridgeWebView, state)
         }
