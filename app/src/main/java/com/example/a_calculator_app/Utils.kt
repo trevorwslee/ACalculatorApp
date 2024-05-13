@@ -72,7 +72,8 @@ fun createBridgeWebView(context: Context, onLoadedCallback: (WebView) -> Unit): 
 fun delayLoadBridge(
     bridgeWebView: WebView,
     state: State,
-    tried: Int = 0
+    tried: Int,
+    hide_buttons: Boolean = false
 ) {
     bridgeWebView.postDelayed({
         bridgeWebView.evaluateJavascript("$CALC_JS_VAR = Calculator.new($CALC_DISPLAY_WIDTH)") {
@@ -93,6 +94,9 @@ fun delayLoadBridge(
             }
         }
     }, 200L * (tried + 1))
+    if (hide_buttons) {
+        bridgeWebView.evaluateJavascript("document.getElementById('buttons').style.display='none'") {}
+    }
 }
 
 fun keyToKeyText(key: String): AnnotatedString {

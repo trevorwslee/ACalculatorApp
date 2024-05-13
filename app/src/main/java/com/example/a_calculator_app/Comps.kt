@@ -41,8 +41,7 @@ import onKeyPressed
 @Composable
 fun BridgeWebView(
     bridgeWebView: WebView,
-    bridgeUrl: MutableState<BridgeUrl>,
-    modifier: Modifier = Modifier
+    bridgeUrl: MutableState<BridgeUrl>
 ) {
     AndroidView(
         factory = { context -> bridgeWebView },
@@ -59,7 +58,7 @@ fun BridgeWebView(
                 it.reload()
             }
         },
-        modifier = modifier
+        modifier = Modifier.fillMaxWidth()
     )
 }
 

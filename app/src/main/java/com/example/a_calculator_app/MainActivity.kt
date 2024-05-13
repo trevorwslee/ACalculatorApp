@@ -30,9 +30,9 @@ import createBridgeWebView
 import delayLoadBridge
 import com.example.a_calculator_app.ui.theme.ACalculatorAppTheme
 
-//val REMOTE_URL: String? = "http://192.168.0.17:8000/"
-val REMOTE_URL: String? = null
-//val REMOTE_URL: String? = "https://trevorwslee.github.io/DumbCalculator/"
+//val BRIDGE_URL: String? = "http://192.168.0.17:8000/"
+val BRIDGE_URL: String? = null
+val BRIDGE_NO_BUTTONS: Boolean = true
 
 //const val MAC_LOAD_BRIDEG_COUNT: Int = 5
 //const val CALC_JS_VAR: String = "app_calc"
@@ -82,7 +82,7 @@ fun HomeTopAppBar(
 @Composable
 fun MainView(modifier: Modifier = Modifier) {
     val context = LocalContext.current
-    val bridgeUrl = remember { mutableStateOf(BridgeUrl(REMOTE_URL, 0)) }
+    val bridgeUrl = remember { mutableStateOf(BridgeUrl(BRIDGE_URL, 0)) }
     val state = remember {
         val angle_mode = mutableStateOf("deg")
         val digits = mutableStateOf("...")
@@ -94,21 +94,21 @@ fun MainView(modifier: Modifier = Modifier) {
     }
     val bridgeWebView = remember {
         createBridgeWebView(context) { bridgeWebView: WebView ->
-            delayLoadBridge(bridgeWebView, state)
+            delayLoadBridge(bridgeWebView, state, 0, BRIDGE_NO_BUTTONS)
         }
     }
     Column(modifier = modifier) {
         val url = bridgeUrl.value.url
         CalculatorView(bridgeWebView, state)
-        Row() {
-            Button(onClick = {
-                bridgeUrl.value = bridgeUrl.value.newUrl(REMOTE_URL)
-                //counter.value += 1
-            }) {
-                Text("Reload")
-            }
-            Text(text = url ?: "assets")
-        }
+//        Row() {
+//            Button(onClick = {
+//                bridgeUrl.value = bridgeUrl.value.newUrl(BRIDGE_URL)
+//                //counter.value += 1
+//            }) {
+//                Text("Reload")
+//            }
+//            Text(text = url ?: "assets")
+//        }
         BridgeWebView(bridgeWebView, bridgeUrl)
     }
 }
