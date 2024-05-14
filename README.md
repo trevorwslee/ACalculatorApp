@@ -4,7 +4,6 @@ published: false
 tags: 'android, webassembly, rust'
 ---
 
-
 # Implement a Simple Calculator Android App by Reusing Logics in Rust via JavaScript-WASM Interfacing
 
 As a followup of my previous work -- [Implement a Simple WASM Calculator in Rust Using Leptos, and with DumbCalculator](https://github.com/trevorwslee/wasm_calculator) --
@@ -162,10 +161,6 @@ fun SimpleBridgeWebView(modifier: Modifier = Modifier) {
     AndroidView(
         factory = { context ->
             WebView(context).apply {
-                this.layoutParams = ViewGroup.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.MATCH_PARENT
-                )
                 this.settings.javaScriptEnabled = true
                 this.webViewClient = WebViewClient()
                 this.loadUrl(ENDPOINT)
@@ -195,7 +190,7 @@ fun SimpleBridgeWebView(modifier: Modifier = Modifier) {
 - you may get into "firewall" issue; if so, be suggested to try to use Python's `http.server` to serve the "bridge"
   since very likely, your Python installation likely already has firewall access setup 
 
-Run the Android app, and see that the "bridge" loads and is working
+Buld and run the Android app, and see that the "bridge" loads and is working
 
 ![](imgs/android_try_bridge.jpg)
 
@@ -230,62 +225,156 @@ cp -r pkg ../app/src/main/assets/bridge/pkg
 
 Now, every time want to build the "bridge", in `rust` run `build.sh` 
 
+As for the Android app side, somethings need be changed
+```
+class MainActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent {
+            SimpleInternBridgeWebView()
+        }
+    }
+}
+@Composable
+fun SimpleInternBridgeWebView(modifier: Modifier = Modifier) {
+    AndroidView(
+        factory = { context ->
+            val assetLoader = WebViewAssetLoader.Builder()
+                .addPathHandler("/assets/", WebViewAssetLoader.AssetsPathHandler(context))
+                .build()
+            WebView(context).apply {
+                this.settings.javaScriptEnabled = true
+                this.webViewClient = object : WebViewClient() {
+                    override fun shouldInterceptRequest(
+                        view: WebView,
+                        request: WebResourceRequest
+                    ): WebResourceResponse? {
+                        return assetLoader.shouldInterceptRequest(request.url)
+                    }
+                }
+                this.loadUrl("https://appassets.androidplatform.net/assets/bridge/simple.html")
+            }
+        },
+        update = {}
+    )
+}
+```
+Notes:
+- `assetLoader` is used to act as a web server that serves web contents from `assets`
+- `shouldInterceptRequest` is intercepted to call `assetLoader`
+- the URL is now like `https://appassets.androidplatform.net/assets/bridge/simple.html`
+
+Again, build and run the Android app, and see that the "bridge" loads from `assets` and is working
 
 
+## Add Some Jetpack Compose Code to Call `get_greeting`
+
+The first thing to realize is the we need to get hold of the `WebView` in order to be able to call its special tailored methods
+
+To achieve, we need to refactor the code a bit so that the `WebView` is created explicitly outside of `SimpleInternBridgeWebView` like
+```
+...
+    setContent {
+        val webView = createSimpleInternBridgeWebView(this)
+        SimpleInternBridgeWebView(webView)
+    }
+...
+```
+
+With the `WebView` (`webView`), we call its `evaluateJavascript` to invoke the *bridge* asynchronously like
+```
+    webView.evaluateJavascript("get_greeting('Android')") {
+        greeting.value = it
+    }
+```
+
+And here is the final code
+
+```
+class MainActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent {
+            val webView = createSimpleInternBridgeWebView(this)
+            Column() {
+                val greeting = remember { mutableStateOf("...") }
+                SimpleInternBridgeWebView(webView)
+                Text(text = greeting.value)
+                Button(onClick = {
+                    webView.evaluateJavascript("get_greeting('Android')") {
+                        greeting.value = it
+                    }
+                }) {
+                    Text("Get Greeting")
+                }
+            }
+        }
+    }
+}
+@Composable
+fun SimpleInternBridgeWebView(webView: WebView, modifier: Modifier = Modifier) {
+    AndroidView(
+        factory = { context -> webView },
+        update = { webView.loadUrl("https://appassets.androidplatform.net/assets/bridge/simple.html") }
+    )
+}
+fun createSimpleInternBridgeWebView(context: Context): WebView {
+    val assetLoader = WebViewAssetLoader.Builder()
+        .addPathHandler("/assets/", WebViewAssetLoader.AssetsPathHandler(context))
+        .build()
+    return WebView(context).apply {
+        this.settings.javaScriptEnabled = true
+        this.webViewClient = object : WebViewClient() {
+            override fun shouldInterceptRequest(
+                view: WebView,
+                request: WebResourceRequest
+            ): WebResourceResponse? {
+                return assetLoader.shouldInterceptRequest(request.url)
+            }
+        }
+        this.loadUrl("https://appassets.androidplatform.net/assets/bridge/simple.html")
+    }
+}
+```
+
+## It Appears that It Will Work!
+
+Nevertheless:
+
+1) The Rust code obviously need be extended to include `DumbCalculator` like 
+```
+#[wasm_bindgen]
+struct Calculator {
+    display_width: usize,
+    calculator: DumbCalculator,
+}
+#[wasm_bindgen]
+impl Calculator {
+    pub fn new(display_width: u8) -> Calculator {
+        Calculator {
+            display_width: display_width as usize,
+            calculator: DumbCalculator::new(),
+        }
+    }
+    pub fn push(&mut self, key: &str) {
+        self.calculator.push(key).unwrap();
+    }
+    ...
+}
+```
+2) The actual "bridge" used by the completed `ACalculatorApp` is `bridge.html`
+
+3) The complete `ACalculatorApp` coding is quite involving, mostly due to UI coding
+
+Without going into all details of the implementation, I hope this exploration at this point is already enjoyable.
+
+## Have Funs
+
+You are more than welcome to clone the GitHub repository and build and run the complete Android app yourself.
 
 
+> Peace be with you!
+> May God bless you!
+> Jesus loves you!
+> Amazing grace!
 
-
-
-
-
-
-Steps:
-
-* create android studio project
-* try build and run the app
-* create repository
-* open project folder with VSCode
-* add folder `rust`
-* add `rust\Cargo.toml`
-* add folder `rust\src\lib`
-* add rust `rust\index.html`
-* add `rust\build.sh`
-* after running `build.sh` will product content in
-  - `rust\target` -- cargo build result
-  - `rust\pkg` -- WASM output
-* start ***Live Server*** VSCode extension
-  - visit localhost:5501/rust/simple.html
-  - navigate to `rust` folder
-  - click the `call WASM` button
-* or use Python's `http.server`
-  - visit localhost:8000/simple.html
-
-
-Android side:
-* ensure folder `app/src/main/assets/bridge`
-* permissions:
-  - access Internet:
-    ```
-    <uses-permission android:name="android.permission.INTERNET" />
-    ```
-  - `WebView` allow *clear text" traffic  
-    ```
-    android:usesCleartextTraffic="true"
-    ```  
-* If use real phone, assume it connects to your local network
-* add `MainView`
-  - for `WebViewAssetLoader` will need to include some additional .. just let Android Studio include it
-
-
-Trying app out:
-* Suggest to use Python's `http.server`, or else might get into *firewall issue*
-* Need to find out the IP of this development machine
-  - set `REMOTE_URL` in `MainActivity.kt`  according to your development machine's IP
-* Deploy the app  
-
-
-Others
-* Preview
-* Fix Orientation
-* 

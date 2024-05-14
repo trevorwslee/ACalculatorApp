@@ -2,6 +2,7 @@ package com.example.a_calculator_app
 
 import BridgeUrl
 import State
+import android.content.Context
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.view.ViewGroup
@@ -148,7 +149,7 @@ fun ACalculatorAppPreview() {
 }
 
 
-val ENDPOINT: String = "http://192.168.0.17:8000/simple.html"
+//val ENDPOINT: String = "http://192.168.0.17:8000/simple.html"
 //class MainActivity : ComponentActivity() {
 //    override fun onCreate(savedInstanceState: Bundle?) {
 //        super.onCreate(savedInstanceState)
@@ -157,53 +158,97 @@ val ENDPOINT: String = "http://192.168.0.17:8000/simple.html"
 //        }
 //    }
 //}
-@Composable
-fun SimpleBridgeWebView(modifier: Modifier = Modifier) {
-    AndroidView(
-        factory = { context ->
-            WebView(context).apply {
-                this.layoutParams = ViewGroup.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.MATCH_PARENT
-                )
-                this.settings.javaScriptEnabled = true
-                this.webViewClient = WebViewClient()
-                this.loadUrl(ENDPOINT)
-            }
-        },
-        update = {}
-    )
-}
+//@Composable
+//fun SimpleBridgeWebView(modifier: Modifier = Modifier) {
+//    AndroidView(
+//        factory = { context ->
+//            WebView(context).apply {
+//                this.settings.javaScriptEnabled = true
+//                this.webViewClient = WebViewClient()
+//                this.loadUrl(ENDPOINT)
+//            }
+//        },
+//        update = {}
+//    )
+//}
 
 
-@Composable
-fun SimpleInternBridgeWebView() {
-    AndroidView(
-        factory = { context ->
-            WebView(context).apply {
-                val assetLoader = WebViewAssetLoader.Builder()
-                    .addPathHandler("/assets/", WebViewAssetLoader.AssetsPathHandler(context))
-                    .build()
-                this.layoutParams = ViewGroup.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.MATCH_PARENT
-                )
-                this.settings.javaScriptEnabled = true
-                this.webViewClient = object : WebViewClient() {
-                    override fun shouldInterceptRequest(
-                        view: WebView,
-                        request: WebResourceRequest
-                    ): WebResourceResponse? {
-                        val host = request.url.host
-                        if (host == "appassets.androidplatform.net") {
-                            return assetLoader.shouldInterceptRequest(request.url)
-                        } else {
-                            return super.shouldInterceptRequest(view, request)
-                        }
-                    }
-                }
-            }
-        },
-        update = {}
-    )
-}
+//class MainActivity : ComponentActivity() {
+//    override fun onCreate(savedInstanceState: Bundle?) {
+//        super.onCreate(savedInstanceState)
+//        setContent {
+//            SimpleInternBridgeWebView()
+//        }
+//    }
+//}
+//@Composable
+//fun SimpleInternBridgeWebView(modifier: Modifier = Modifier) {
+//    AndroidView(
+//        factory = { context ->
+//            val assetLoader = WebViewAssetLoader.Builder()
+//                .addPathHandler("/assets/", WebViewAssetLoader.AssetsPathHandler(context))
+//                .build()
+//            WebView(context).apply {
+//                this.settings.javaScriptEnabled = true
+//                this.webViewClient = object : WebViewClient() {
+//                    override fun shouldInterceptRequest(
+//                        view: WebView,
+//                        request: WebResourceRequest
+//                    ): WebResourceResponse? {
+//                        return assetLoader.shouldInterceptRequest(request.url)
+//                    }
+//                }
+//                this.loadUrl("https://appassets.androidplatform.net/assets/bridge/simple.html")
+//            }
+//        },
+//        update = {}
+//    )
+//}
+
+
+
+//class MainActivity : ComponentActivity() {
+//    override fun onCreate(savedInstanceState: Bundle?) {
+//        super.onCreate(savedInstanceState)
+//        setContent {
+//            val webView = createSimpleInternBridgeWebView(this)
+//            Column() {
+//                val greeting = remember { mutableStateOf("...") }
+//                SimpleInternBridgeWebView(webView)
+//                Text(text = greeting.value)
+//                Button(onClick = {
+//                    webView.evaluateJavascript("get_greeting('Android')") {
+//                        greeting.value = it
+//                    }
+//                }) {
+//                    Text("Get Greeting")
+//                }
+//            }
+//        }
+//    }
+//}
+//@Composable
+//fun SimpleInternBridgeWebView(webView: WebView, modifier: Modifier = Modifier) {
+//    AndroidView(
+//        factory = { context -> webView },
+//        update = { webView.loadUrl("https://appassets.androidplatform.net/assets/bridge/simple.html") }
+//    )
+//}
+//fun createSimpleInternBridgeWebView(context: Context): WebView {
+//    val assetLoader = WebViewAssetLoader.Builder()
+//        .addPathHandler("/assets/", WebViewAssetLoader.AssetsPathHandler(context))
+//        .build()
+//    return WebView(context).apply {
+//        this.settings.javaScriptEnabled = true
+//        this.webViewClient = object : WebViewClient() {
+//            override fun shouldInterceptRequest(
+//                view: WebView,
+//                request: WebResourceRequest
+//            ): WebResourceResponse? {
+//                return assetLoader.shouldInterceptRequest(request.url)
+//            }
+//        }
+//        this.loadUrl("https://appassets.androidplatform.net/assets/bridge/simple.html")
+//    }
+//}
+
