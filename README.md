@@ -192,7 +192,7 @@ fun SimpleBridgeWebView(modifier: Modifier = Modifier) {
 
 Build and run the Android app, and see that the "bridge" loads and is working
 
-![](imgs/an_try_bridge.jpg)
+![](imgs/an_try_bridge.png)
 
 
 ## Package the "Bridge" with the App
