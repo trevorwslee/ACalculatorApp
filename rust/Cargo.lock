@@ -65,6 +65,8 @@ dependencies = [
 [[package]]
 name = "rusty_dumb_tools"
 version = "0.1.11"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "dbb166b59366161387c11f69e64b811d08a985914e3ffb46b34b4520faf54c10"
 dependencies = [
  "unicode-segmentation",
 ]

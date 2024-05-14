@@ -1,6 +1,6 @@
 ---
 title: Implement a Simple Calculator Android App by Reusing Logics in Rust via JavaScript-WASM Interfacing
-published: false
+published: true
 tags: 'android, webassembly, rust'
 id: 1852855
 ---
@@ -373,7 +373,7 @@ impl Calculator {
 
 |  |  |
 |--|--|
-|Without going into all the details of the implementation, I hope this exploration at this point is already enjoyable.|<img src='imgs/completed.png' width="200px"/>|
+|Without going into all the details of the implementation, I hope this exploration at this point is already enjoyable.|![](imgs/completed.png)|
 
 ## Enjoy!
 
