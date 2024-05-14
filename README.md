@@ -338,6 +338,9 @@ fun createSimpleInternBridgeWebView(context: Context): WebView {
 }
 ```
 
+![](imgs/from_an.png)
+
+
 ## It Appears that It Will Work!
 
 Nevertheless:
@@ -367,7 +370,10 @@ impl Calculator {
 
 3) The complete `ACalculatorApp` coding is quite involving, mostly due to UI coding
 
-Without going into all the details of the implementation, I hope this exploration at this point is already enjoyable.
+
+|  |  |
+|--|--|
+|Without going into all the details of the implementation, I hope this exploration at this point is already enjoyable.|<img src='imgs/completed.png' width="200px"/>|
 
 ## Enjoy!
 
