@@ -20,7 +20,7 @@ https://github.com/rustwasm/wasm-bindgen/tree/main/examples/without-a-bundler
 ## Starting the Project
 
 Since it will be an Android App -- `ACalculatorApp` -- naturally, we will create an ***Android Studio*** project for it.
-Nevertheless, inside the project, we will be creating a little Rust project for developing the JavaScript bridge.
+Moreover, inside the project, we will be creating a little Rust project for developing the JavaScript bridge.
 
 Simply, create an ***Android Studio*** project `ACalculatorApp`
 
@@ -28,9 +28,9 @@ Simply, create an ***Android Studio*** project `ACalculatorApp`
 ![](imgs/new_project.png)
 
 
-## Initialize for the JavaScript-Rust Bridge
+## Initialize for the JavaScript-Rust "Bridge"
 
-To start coding for the JavaScript-Rust bridge:
+To start coding for the JavaScript-Rust "bridge":
 
 * Open the created folder `ACalculatorApp` with ***VSCode***
 
@@ -101,11 +101,11 @@ pub fn get_greeting(who: String) -> String {
 
 ![](imgs/try_bridge.png)  
   
-* An alternative is to use Python's `http.server`
+* An alternative is to use Python's `http.server`; in `rust` run
   ```
   python -m http.server
   ```
-  - visit localhost:8000//simple.html
+  - visit localhost:8000/simple.html
 
 ## Key Takeaways of the JavaScript-WASM Bridge
 
@@ -188,16 +188,16 @@ fun SimpleBridgeWebView(modifier: Modifier = Modifier) {
 - you should change the IP and port in `ENDPOINT` to yours
 
 - you may get into "firewall" issue; if so, be suggested to try to use Python's `http.server` to serve the "bridge"
-  since very likely, your Python installation likely already has firewall access setup 
+  since very likely your Python installation already has firewall access setup 
 
-Buld and run the Android app, and see that the "bridge" loads and is working
+Build and run the Android app, and see that the "bridge" loads and is working
 
 ![](imgs/android_try_bridge.jpg)
 
 
 ## Package the "Bridge" with the App
 
-It is possible to package the "bridge" in the app PKG. To do so, we will need to put everything of the "bridge" to the `assets` folder like
+It is possible to package the "bridge" in the app's PKG. To do so, we will need to put everything of the "bridge" to the `assets` folder like
 
 |Android Studio|VSCode|
 |--|--|
@@ -269,9 +269,9 @@ Again, build and run the Android app, and see that the "bridge" loads from `asse
 
 ## Add Some Jetpack Compose Code to Call `get_greeting`
 
-The first thing to realize is the we need to get hold of the `WebView` in order to be able to call its special tailored methods
+The first thing to realize is that we need to get hold of the `WebView` in order to be able to call its special tailored methods
 
-To achieve, we need to refactor the code a bit so that the `WebView` is created explicitly outside of `SimpleInternBridgeWebView` like
+To achieve this, we need to refactor the code a bit so that the `WebView` is created explicitly outside of `SimpleInternBridgeWebView` like
 ```
 ...
     setContent {
@@ -281,14 +281,14 @@ To achieve, we need to refactor the code a bit so that the `WebView` is created 
 ...
 ```
 
-With the `WebView` (`webView`), we call its `evaluateJavascript` to invoke the *bridge* asynchronously like
+With the `WebView` (`webView`), we call its `evaluateJavascript` method to invoke the "bridge" asynchronously like
 ```
     webView.evaluateJavascript("get_greeting('Android')") {
         greeting.value = it
     }
 ```
 
-And here is the final code
+And here is the code
 
 ```
 class MainActivity : ComponentActivity() {
@@ -366,11 +366,11 @@ impl Calculator {
 
 3) The complete `ACalculatorApp` coding is quite involving, mostly due to UI coding
 
-Without going into all details of the implementation, I hope this exploration at this point is already enjoyable.
+Without going into all the details of the implementation, I hope this exploration at this point is already enjoyable.
 
-## Have Funs
+## Enjoy!
 
-You are more than welcome to clone the GitHub repository and build and run the complete Android app yourself.
+You are more than welcome to clone the [GitHub repository](https://github.com/trevorwslee/ACalculatorApp) and build and run the complete Android app yourself.
 
 
 > Peace be with you!
