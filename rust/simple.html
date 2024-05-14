@@ -1,0 +1,11 @@
+<script type="module">
+  import init, { get_greeting } from './pkg/dumb_calculator.js';
+  async function load() {
+      await init();
+      window.get_greeting = get_greeting;
+  }
+  load();
+</script>
+<button onclick="document.getElementById('msg').innerText+=get_greeting('World')">GREET</button>
+<div id="msg"></div>
+

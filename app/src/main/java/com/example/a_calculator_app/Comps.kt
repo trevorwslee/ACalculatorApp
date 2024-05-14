@@ -50,7 +50,7 @@ fun BridgeWebView(
             val loadUrl = if (url != null) {
                 url
             } else {
-                "https://appassets.androidplatform.net/assets/bridge/index.html"  // IMPORTANT: host appassets.androidplatform.net is required
+                "https://appassets.androidplatform.net/assets/bridge/bridge.html"  // IMPORTANT: host appassets.androidplatform.net is required
             }
             if (it.url != loadUrl) {
                 it.loadUrl(loadUrl)
