@@ -3,6 +3,7 @@ title: Implement a Simple Calculator Android App by Reusing Logics in Rust via J
 published: true
 tags: 'android, webassembly, rust'
 id: 1852855
+date: '2024-05-14T16:33:25Z'
 ---
 
 # Implement a Simple Calculator Android App by Reusing Logics in Rust via JavaScript-WASM Interfacing
