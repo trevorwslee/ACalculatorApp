@@ -1,0 +1,27 @@
+<script type="module">
+  import init, { Calculator } from './pkg/dumb_calculator.js';
+  async function load() {
+      await init();
+      window.Calculator = Calculator;
+  }
+  load();
+</script>
+<script>
+  function new_calc() {
+    calc = Calculator.new(5);
+    _sync_calc();
+  }
+  function _sync_calc() {
+    let display = calc.get_display();
+    let elem = document.getElementById('msg');
+    elem.innerText = display;
+  }
+</script>
+<div id="buttons">
+  <button onclick="new_calc()">new</button>
+  <button onclick="calc.push('1'); _sync_calc();">1</button>
+  <button onclick="calc.push('+'); _sync_calc();">+</button>
+  <button onclick="calc.push('2'); _sync_calc();">2</button>
+  <button onclick="calc.push('='); _sync_calc();">=</button>
+</div>
+<div id="msg"></div>

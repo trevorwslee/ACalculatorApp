@@ -1,7 +1,7 @@
 #![allow(unused)]
 
-use std::{cell::RefCell, mem::{self, MaybeUninit}, sync::Once};
 use wasm_bindgen::prelude::*;
+use std::{cell::RefCell, mem::{self, MaybeUninit}, sync::Once};
 use rusty_dumb_tools::calculator::DumbCalculator;
 
 

@@ -148,6 +148,7 @@ Notice:
 
 The key enabled is an Android `WebView`. With Jetpack Compose, it can be programmed like
 
+(*as in `simple` package*)
 ```
 val ENDPOINT: String = "http://192.168.0.17:8000/simple.html"
 class MainActivity : ComponentActivity() {
@@ -172,8 +173,13 @@ fun SimpleBridgeWebView(modifier: Modifier = Modifier) {
     )
 }
 ```
+Notes:
+- `WebView` is wrapper with an `AndroidView`
+- `javaScriptEnabled`, but currently no JavaScript is involved
+- `loadUrl` is called to load the "bridge" (web page) when the `WebView` is created
 
-***Important notes***:
+
+Yet more ***important*** Notes:
 
 - Android permission settings in `AndroidManifest.xml`:
   * allow access to the Internet:
@@ -186,6 +192,14 @@ fun SimpleBridgeWebView(modifier: Modifier = Modifier) {
     <application ...
       android:usesCleartextTraffic="true"
     ```  
+
+ Reminder: this repository already include the above code in the `simple` package, you can use that `MainActivity` simply by changing `AndroidManifest.xml` like
+ ```
+    ...
+    <activity
+        android:name=".simple.MainActivity"
+        ...
+```   
 
 - you should change the IP and port in `ENDPOINT` to yours
 
@@ -228,6 +242,7 @@ cp -r pkg ../app/src/main/assets/bridge/pkg
 Now, every time want to build the "bridge", in `rust` run `build.sh` 
 
 As for the Android app side, somethings need be changed
+(*as in `internal` package*)
 ```
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -291,7 +306,7 @@ With the `WebView` (`webView`), we call its `evaluateJavascript` method to invok
 ```
 
 And here is the code
-
+(*as in `internal_ui` package*)
 ```
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -342,12 +357,20 @@ fun createSimpleInternBridgeWebView(context: Context): WebView {
 ![](imgs/from_an.png)
 
 
-## It Appears that It Will Work!
+## Lets Bring Some Calculator Code into the Picture
 
-Nevertheless:
+As mentioned previously, the Android App will be a simple calculator with core implementation in Rust with the help of `DumbCalculator`. Now, lets bring `DumbCalculator` into the picture and make change to the code `lib.rs`
 
-1) The Rust code obviously need be extended to include `DumbCalculator` like 
 ```
+use wasm_bindgen::prelude::*;
+use std::{cell::RefCell, mem::{self, MaybeUninit}, sync::Once};
+use rusty_dumb_tools::calculator::DumbCalculator;
+
+#[wasm_bindgen]
+pub fn get_greeting(who: String) -> String {
+    format!("Hello, {}!", who)
+}
+
 #[wasm_bindgen]
 struct Calculator {
     display_width: usize,
@@ -364,12 +387,65 @@ impl Calculator {
     pub fn push(&mut self, key: &str) {
         self.calculator.push(key).unwrap();
     }
-    ...
+    pub fn get_display(&self) -> String {
+        self.calculator.get_display_sized(self.display_width)
+    }
 }
 ```
-2) The actual "bridge" used by the completed `ACalculatorApp` is `bridge.html`
+Notice:
+- Now, we have a `Calculator` class to expose
+- Again, in order to expose, simply annotate the `struct` as well as the `impl` with `#[wasm_bindgen]`
 
-3) The complete `ACalculatorApp` coding is quite involving, mostly due to UI coding
+And we use another "bridge" -- `simple_calculator.html`
+```
+<script type="module">
+  import init, { Calculator } from './pkg/dumb_calculator.js';
+  async function load() {
+      await init();
+      window.Calculator = Calculator;
+  }
+  load();
+</script>
+<script>
+  function new_calc() {
+    calc = Calculator.new(5);
+    _sync_calc();
+  }
+  function _sync_calc() {
+    let display = calc.get_display();
+    let elem = document.getElementById('msg');
+    elem.innerText = display;
+  }
+</script>
+<div id="buttons">
+  <button onclick="new_calc()">new</button>
+  <button onclick="calc.push('1'); _sync_calc();">1</button>
+  <button onclick="calc.push('+'); _sync_calc();">+</button>
+  <button onclick="calc.push('2'); _sync_calc();">2</button>
+  <button onclick="calc.push('='); _sync_calc();">=</button>
+</div>
+<div id="msg"></div>
+```
+Notice that in another `<script>` block, some JavaScript functions are defined
+- `new_calc()` which should be called to crate a new `Calculator` instance, and assign it to the JavaScript variable `calc`
+- after creating a new `Calculator` instance with `new_calc()`, can call the methods of `Calculator` like `calc.push('1')`
+- `_sync_calc()` is there to synchronized the `Calcuator`'s *display* with the "msg" `<div>`
+
+
+Try it! Simply change the above `simple.html` (like in `ENDPOINT`)
+```
+```
+
+
+## It Appears that It Will Work!
+
+Nevertheless:
+
+* The Rust code file `lib.rs` need be extended in order to expose more functionalities of `DumbCalculator`
+
+* The actual "bridge" used by the completed `ACalculatorApp` is `bridge.html`
+
+* The complete `ACalculatorApp` coding is quite involving, mostly due to UI coding
 
 
 |  |  |
