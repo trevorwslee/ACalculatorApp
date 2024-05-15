@@ -198,7 +198,7 @@ More ***importantly***, modify Android permission settings in `AndroidManifest.x
     android:usesCleartextTraffic="true"
 ```  
 
- Reminder: this repository already includes the above code in the `simple` package, you can use that `MainActivity` simply by changing `AndroidManifest.xml` like
+ Reminder: [this repository](https://github.com/trevorwslee/ACalculatorApp) already includes the above code in the `simple` package, you can use that `MainActivity` simply by changing `AndroidManifest.xml` like
  ```
     ...
     <activity
@@ -432,11 +432,14 @@ Notice that in another `<script>` block, some JavaScript functions are defined
 - after creating a new `Calculator` instance with `new_calc()`, can call the methods of `Calculator` like `calc.push('1')`
 - `_sync_calc()` is there to synchronize the `Calcuator`'s *display* with the "msg" `<div>`
 
+![](imgs/try_bridge_calc.png)
 
 Try it! Simply change the above `simple.html` to `simple_calculator.html`, like in `ENDPOINT`
 ```
 val ENDPOINT: String = "http://192.168.0.17:8000/simple_calculator.html"
 ```
+
+![](imgs/an_try_bridge_calc.png)
 
 
 ## It Appears that It Will Work!
