@@ -9,15 +9,17 @@ date: '2024-05-14T16:33:25Z'
 # Implement a Simple Calculator Android App by Reusing Logics in Rust via JavaScript-WASM Interfacing
 
 As a followup of my previous work -- [Implement a Simple WASM Calculator in Rust Using Leptos, and with DumbCalculator](https://github.com/trevorwslee/wasm_calculator) --
-this time, I would like to explore a *not-elegant-but-work-for-me* way to reuse the logics implemented in Rust, without the need to rewrite the core using Kotlin.
+this time, I would like to explore a *not-elegant-but-work-for-me* way to reuse the logics implemented in Rust, without going through the trouble rewriting the core using Kotlin.
 
 The idea is to use JavaScript as the bridge between the Android app and the WASM Rust code, which is 
 largely realized with the help of `DumbCalculator` of [rusty_dumb_tools](https://crates.io/crates/rusty_dumb_tools).
 
-* The binding of Rust (WASM) and JavaScript is done with the help of `wasm-bindgen` and `wasm-pack` --
+* The binding of Rust (WASM) and JavaScript is realized with the help of `wasm-bindgen` and `wasm-pack` --
 https://github.com/rustwasm/wasm-bindgen/tree/main/examples/without-a-bundler
+* You can refer to [`wasm-pack` Quickstart](https://rustwasm.github.io/docs/wasm-pack/quickstart.html) for instruction on installing `wasm-pack`
 * For Android app to interact with JavaScript (web page), Android's `WebView` is the key enabler
-
+* You can refer to [Install Android Studio](https://developer.android.com/studio/install) for instruction on installing ***Android Studio***
+* Other than ***Android Studio***, [VSCode](https://code.visualstudio.com/download) is used for developing the Rust code
 
 ## Starting the Project
 
@@ -39,34 +41,33 @@ To start coding for the JavaScript-Rust "bridge":
 
 * Create the folder `rust` (inside `ACalculatorApp`)
 
-* In the folder `rust`
-  - Create `Cargo.toml`
-```
-[package]
-name = "dumb_calculator"
-version = "0.1.0"
-edition = "2021"
-[lib]
-crate-type = ["cdylib"]
-[dependencies]
-wasm-bindgen = "0.2.92"
-rusty_dumb_tools = "0.1.11"
-[dependencies.web-sys]
-version = "0.3.4"
-features = [
-  'Document',
-  'Element',
-  'HtmlElement',
-  'Node',
-  'Window',
-]
-```
-    Note that in order for `wasm-bindgen` to work, need the followings
-    * `crate-type = ["cdylib"]`
-    * `[dependencies.web-sys]`
-    * `wasm-bindgen = "0.2.92"`
+* In the folder `rust`, create `Cargo.toml`
+    ```
+    [package]
+    name = "dumb_calculator"
+    version = "0.1.0"
+    edition = "2021"
+    [lib]
+    crate-type = ["cdylib"]
+    [dependencies]
+    wasm-bindgen = "0.2.92"
+    rusty_dumb_tools = "0.1.11"
+    [dependencies.web-sys]
+    version = "0.3.4"
+    features = [
+    'Document',
+    'Element',
+    'HtmlElement',
+    'Node',
+    'Window',
+    ]
+    ``` 
+    Note that in order for `wasm-bindgen` to work, the following configurations are required
+    - `crate-type = ["cdylib"]`
+    - `[dependencies.web-sys]`
+    - `wasm-bindgen = "0.2.92"`
 
-  - Create `src/lib.rc`
+* In the folder `rust`, create `src/lib.rc`
 ```
 use wasm_bindgen::prelude::*;
 #[wasm_bindgen]
@@ -75,7 +76,7 @@ pub fn get_greeting(who: String) -> String {
 }
 ```
 
-  - Create `simple.html`
+* In the folder `rust`, create `simple.html`
 ```
 <script type="module">
   import init, { get_greeting } from './pkg/dumb_calculator.js';
@@ -95,7 +96,7 @@ pub fn get_greeting(who: String) -> String {
   ```
   wasm-pack build --target web
   ```
-  This will create `target` and `pkg`
+  This will generate the output folders `target` and `pkg`
 
 * Start ***Live Server*** VSCode extension
   - visit localhost:5501/rust/simple.html
@@ -103,7 +104,7 @@ pub fn get_greeting(who: String) -> String {
 
 ![](imgs/try_bridge.png)  
   
-* An alternative is to use Python's `http.server`; in `rust` run
+* An alternative is to use Python's `http.server`; in `rust`, open a terminal and run
   ```
   python -m http.server
   ```
@@ -127,7 +128,7 @@ pub fn get_greeting(who: String) -> String {
 ```
 wasm-pack build --target web
 ```  
-* HTML page loads the WASM Rust exposed requires a "module" like
+* HTML page that loads the WASM Rust exposed needs be in "module" like
 ```
 <script type="module">
   import init, { get_greeting } from './pkg/dumb_calculator.js';
@@ -173,27 +174,31 @@ fun SimpleBridgeWebView(modifier: Modifier = Modifier) {
     )
 }
 ```
-Notes:
-- `WebView` is wrapper with an `AndroidView`
+Notice:
+- `WebView` is wrapped with an `AndroidView`
 - `javaScriptEnabled`, but currently no JavaScript is involved
 - `loadUrl` is called to load the "bridge" (web page) when the `WebView` is created
 
 
-Yet more ***important*** Notes:
+***Important*** Notes:
+- you should change the IP and port in `ENDPOINT` to yours
+- you may get into "firewall" issue; if so, be suggested to try to use Python's `http.server` to serve the "bridge"
+  since very likely your Python installation already has firewall access setup 
 
-- Android permission settings in `AndroidManifest.xml`:
-  * allow access to the Internet:
-    ```
-    <manifest ...>
-      <uses-permission android:name="android.permission.INTERNET" />
-    ```
-  * allow `WebView` "clear text" traffic  
-    ```
-    <application ...
-      android:usesCleartextTraffic="true"
-    ```  
 
- Reminder: this repository already include the above code in the `simple` package, you can use that `MainActivity` simply by changing `AndroidManifest.xml` like
+More ***importantly***, modify Android permission settings in `AndroidManifest.xml`:
+* allow access to the Internet:
+```
+<manifest ...>
+    <uses-permission android:name="android.permission.INTERNET" />
+```
+* allow `WebView` "clear text" traffic  
+```
+<application ...
+    android:usesCleartextTraffic="true"
+```  
+
+ Reminder: this repository already includes the above code in the `simple` package, you can use that `MainActivity` simply by changing `AndroidManifest.xml` like
  ```
     ...
     <activity
@@ -201,10 +206,6 @@ Yet more ***important*** Notes:
         ...
 ```   
 
-- you should change the IP and port in `ENDPOINT` to yours
-
-- you may get into "firewall" issue; if so, be suggested to try to use Python's `http.server` to serve the "bridge"
-  since very likely your Python installation already has firewall access setup 
 
 Build and run the Android app, and see that the "bridge" loads and is working
 
@@ -427,13 +428,14 @@ And we use another "bridge" -- `simple_calculator.html`
 <div id="msg"></div>
 ```
 Notice that in another `<script>` block, some JavaScript functions are defined
-- `new_calc()` which should be called to crate a new `Calculator` instance, and assign it to the JavaScript variable `calc`
+- `new_calc()` should be called to crate a new `Calculator` instance, and assign it to the JavaScript variable `calc`
 - after creating a new `Calculator` instance with `new_calc()`, can call the methods of `Calculator` like `calc.push('1')`
-- `_sync_calc()` is there to synchronized the `Calcuator`'s *display* with the "msg" `<div>`
+- `_sync_calc()` is there to synchronize the `Calcuator`'s *display* with the "msg" `<div>`
 
 
-Try it! Simply change the above `simple.html` (like in `ENDPOINT`)
+Try it! Simply change the above `simple.html` to `simple_calculator.html`, like in `ENDPOINT`
 ```
+val ENDPOINT: String = "http://192.168.0.17:8000/simple_calculator.html"
 ```
 
 
@@ -442,15 +444,13 @@ Try it! Simply change the above `simple.html` (like in `ENDPOINT`)
 Nevertheless:
 
 * The Rust code file `lib.rs` need be extended in order to expose more functionalities of `DumbCalculator`
-
-* The actual "bridge" used by the completed `ACalculatorApp` is `bridge.html`
-
+* The "bridge" is also extended, like in `bridge.html`
 * The complete `ACalculatorApp` coding is quite involving, mostly due to UI coding
 
 
 |  |  |
 |--|--|
-|Without going into all the details of the implementation, I hope this exploration at this point is already enjoyable.|![](imgs/completed.png)|
+|**Without going into all the details of the implementation, I hope this exploration at this point is already enjoyable.**|![](imgs/completed.png)|
 
 ## Enjoy!
 
