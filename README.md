@@ -11,7 +11,7 @@ date: '2024-05-14T16:33:25Z'
 As a followup of my previous work -- [Implement a Simple WASM Calculator in Rust Using Leptos, and with DumbCalculator](https://github.com/trevorwslee/wasm_calculator) --
 this time, I would like to explore a *not-elegant-but-work-for-me* way to reuse the logics implemented in Rust, without going through the trouble rewriting the core using Kotlin.
 
-The idea is to use JavaScript as the bridge between the Android app and the WASM Rust code, which is 
+The idea is to use JavaScript as the "bridge" between the Android app and the WASM Rust code, which is 
 largely realized with the help of `DumbCalculator` of [rusty_dumb_tools](https://crates.io/crates/rusty_dumb_tools).
 
 * The binding of Rust (WASM) and JavaScript is realized with the help of `wasm-bindgen` and `wasm-pack` --
@@ -24,7 +24,7 @@ https://github.com/rustwasm/wasm-bindgen/tree/main/examples/without-a-bundler
 ## Starting the Project
 
 Since it will be an Android App -- `ACalculatorApp` -- naturally, we will create an ***Android Studio*** project for it.
-Moreover, inside the project, we will be creating a little Rust project for developing the JavaScript bridge.
+Moreover, inside the project, we will be creating a little Rust project for developing the JavaScript "bridge".
 
 Simply, create an ***Android Studio*** project `ACalculatorApp`
 
@@ -47,19 +47,22 @@ To start coding for the JavaScript-Rust "bridge":
     name = "dumb_calculator"
     version = "0.1.0"
     edition = "2021"
+
     [lib]
     crate-type = ["cdylib"]
+    
     [dependencies]
     wasm-bindgen = "0.2.92"
-    rusty_dumb_tools = "0.1.11"
+    rusty_dumb_tools = "0.1.13"
+    
     [dependencies.web-sys]
     version = "0.3.4"
-    features = [
-    'Document',
-    'Element',
-    'HtmlElement',
-    'Node',
-    'Window',
+        features = [
+        'Document',
+        'Element',
+        'HtmlElement',
+        'Node',
+        'Window',
     ]
     ``` 
     Note that in order for `wasm-bindgen` to work, the following configurations are required

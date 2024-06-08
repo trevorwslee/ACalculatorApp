@@ -64,12 +64,9 @@ dependencies = [
 
 [[package]]
 name = "rusty_dumb_tools"
-version = "0.1.11"
+version = "0.1.13"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "dbb166b59366161387c11f69e64b811d08a985914e3ffb46b34b4520faf54c10"
-dependencies = [
- "unicode-segmentation",
-]
+checksum = "cdf6923168fe5505842d9de549c4fd764cffcf932d547264f4412ef7e647850f"
 
 [[package]]
 name = "syn"
@@ -87,12 +84,6 @@ name = "unicode-ident"
 version = "1.0.12"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "3354b9ac3fae1ff6755cb6db53683adb661634f67557942dea4facebec0fee4b"
-
-[[package]]
-name = "unicode-segmentation"
-version = "1.11.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d4c87d22b6e3f4a18d4d40ef354e97c90fcb14dd91d7dc0aa9d8a1172ebf7202"
 
 [[package]]
 name = "wasm-bindgen"
