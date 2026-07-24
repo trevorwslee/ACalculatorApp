@@ -1,9 +1,5 @@
 package com.example.a_calculator_app
 
-import BridgeUrl
-import CALC_DISPLAY_WIDTH
-import Key
-import State
 import android.webkit.WebView
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -35,8 +31,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
-import keyToKeyText
-import onKeyPressed
 
 @Composable
 fun BridgeWebView(
@@ -344,13 +338,13 @@ fun CalculatorView(
 @Composable
 fun CalculatorViewPreview() {
     val state = remember {
-        val angle_mode = mutableStateOf("rad")
+        val angleMode = mutableStateOf("rad")
         val digits = mutableStateOf("preview")
         val history = mutableStateOf("history")
         val opIndicator = mutableStateOf("+")
-        val bracketIndictaor = mutableStateOf("(1)")
+        val bracketIndicator = mutableStateOf("(1)")
         val memory = mutableStateOf("123.456")
-        State(angle_mode, digits, history, opIndicator, bracketIndictaor, memory)
+        State(angleMode, digits, history, opIndicator, bracketIndicator, memory)
     }
     CalculatorView(null, state)
 }

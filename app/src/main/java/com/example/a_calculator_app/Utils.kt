@@ -1,3 +1,5 @@
+package com.example.a_calculator_app
+
 import android.content.Context
 import android.view.ViewGroup
 import android.webkit.WebResourceRequest
@@ -14,7 +16,7 @@ import androidx.compose.ui.unit.sp
 import androidx.webkit.WebViewAssetLoader
 
 
-const val MAC_LOAD_BRIDEG_COUNT: Int = 5
+const val MAC_LOAD_BRIDGE_COUNT: Int = 5
 const val CALC_JS_VAR: String = "app_calc"
 const val CALC_DISPLAY_WIDTH: Int = 12
 
@@ -85,7 +87,7 @@ fun delayLoadBridge(
 //                    "failed to new calculator",
 //                    Toast.LENGTH_SHORT
 //                ).show()
-                if (tried < MAC_LOAD_BRIDEG_COUNT) {
+                if (tried < MAC_LOAD_BRIDGE_COUNT) {
                     state.digits.value = "." + state.digits.value
                     delayLoadBridge(bridgeWebView, state, tried + 1)
                 } else {

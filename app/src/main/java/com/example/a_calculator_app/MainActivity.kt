@@ -1,31 +1,20 @@
 package com.example.a_calculator_app
 
-import BridgeUrl
-import State
-import android.content.Context
 import android.content.pm.ActivityInfo
 import android.os.Bundle
-import android.view.ViewGroup
-import android.webkit.WebResourceRequest
-import android.webkit.WebResourceResponse
 import android.webkit.WebView
-import android.webkit.WebViewClient
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -33,10 +22,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.viewinterop.AndroidView
-import androidx.webkit.WebViewAssetLoader
-import createBridgeWebView
-import delayLoadBridge
 import com.example.a_calculator_app.ui.theme.ACalculatorAppTheme
 
 //val BRIDGE_URL: String? = "http://192.168.0.17:8000/"
@@ -90,13 +75,13 @@ fun MainView(modifier: Modifier = Modifier) {
     val context = LocalContext.current
     val bridgeUrl = remember { mutableStateOf(BridgeUrl(BRIDGE_URL, 0)) }
     val state = remember {
-        val angle_mode = mutableStateOf("deg")
+        val angleMode = mutableStateOf("deg")
         val digits = mutableStateOf("...")
         val history = mutableStateOf("")
         val opIndicator = mutableStateOf("")
         val bracketIndictaor = mutableStateOf("")
         val memory = mutableStateOf("")
-        State(angle_mode, digits, history, opIndicator, bracketIndictaor, memory)
+        State(angleMode, digits, history, opIndicator, bracketIndictaor, memory)
     }
     val bridgeWebView = remember {
         createBridgeWebView(context) { bridgeWebView: WebView ->
@@ -124,13 +109,13 @@ fun MainView(modifier: Modifier = Modifier) {
 @Composable
 fun ACalculatorAppPreview() {
     val state = remember {
-        val angle_mode = mutableStateOf("rad")
+        val angleMode = mutableStateOf("rad")
         val digits = mutableStateOf("preview")
         val history = mutableStateOf("history")
         val opIndicator = mutableStateOf("+")
-        val bracketIndictaor = mutableStateOf("(1)")
+        val bracketIndicator = mutableStateOf("(1)")
         val memory = mutableStateOf("123.456")
-        State(angle_mode, digits, history, opIndicator, bracketIndictaor, memory)
+        State(angleMode, digits, history, opIndicator, bracketIndicator, memory)
     }
     ACalculatorAppTheme {
         Scaffold(
