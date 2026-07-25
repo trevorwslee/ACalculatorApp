@@ -39,6 +39,29 @@ fun ACalculatorAppTheme(
     dynamicColor: Boolean = true,
     content: @Composable () -> Unit
 ) {
+//    // 1. Detect the device window size class
+//    val adaptiveInfo = currentWindowAdaptiveInfo()
+//    val widthSizeClass = adaptiveInfo.windowSizeClass.windowWidthSizeClass
+//
+//    // 2. Select typography based on screen size
+//    val typography = when (widthSizeClass) {
+//        WindowWidthSizeClass.EXPANDED -> ExpandedTypography
+//        WindowWidthSizeClass.MEDIUM -> ExpandedTypography // You can map medium to expanded or compact
+//        else -> CompactTypography // Default for COMPACT (phones)
+//    }
+
+//    val localAppTypography = compositionLocalOf {
+//        // 2. Select typography based on screen size
+//        val typography = when (widthSizeClass) {
+//            WindowWidthSizeClass.EXPANDED -> ExpandedTypography
+//            WindowWidthSizeClass.MEDIUM -> ExpandedTypography // You can map medium to expanded or compact
+//            else -> CompactTypography // Default for COMPACT (phones)
+//        }
+//        typography
+//    }
+
+
+
     val colorScheme = when {
         dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
             val context = LocalContext.current
@@ -52,6 +75,7 @@ fun ACalculatorAppTheme(
     MaterialTheme(
         colorScheme = colorScheme,
         typography = Typography,
+        //typography = typography,
         content = content
     )
 }
