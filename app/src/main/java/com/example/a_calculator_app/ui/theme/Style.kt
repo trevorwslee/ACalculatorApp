@@ -14,13 +14,12 @@ data class AppStyle(
 )
 
 val CompactStyle = AppStyle(
-    headerRowTextStyle = TextStyle(fontSize = 10.sp, fontFamily = FontFamily.Monospace),
-    digitTextStyle = TextStyle(fontSize = 20.sp),
-    keyTextStyle = TextStyle(fontSize = 12.sp),
-    historyRowTextStyle = TextStyle(fontSize = 10.sp),
+    headerRowTextStyle = TextStyle(fontSize = 14.sp, fontFamily = FontFamily.Monospace),
+    digitTextStyle = TextStyle(fontSize = 28.sp),
+    keyTextStyle = TextStyle(fontSize = 20.sp),
+    historyRowTextStyle = TextStyle(fontSize = 14.sp),
 )
 
-// Typography for tablets and foldables (Medium/Expanded)
 val ExpandedStyle = AppStyle(
     headerRowTextStyle = TextStyle(fontSize = 18.sp, fontFamily = FontFamily.Monospace),
     digitTextStyle = TextStyle(fontSize = 48.sp),
@@ -28,7 +27,7 @@ val ExpandedStyle = AppStyle(
     historyRowTextStyle = TextStyle(fontSize = 18.sp),
 )
 
-// Create the Local provider ... see ACalculatorAppTheme.appStyle
+// depends on device screen size ... see ACalculatorAppTheme.appStyle
 val LocalAppStyle = staticCompositionLocalOf {
     CompactStyle
 }
