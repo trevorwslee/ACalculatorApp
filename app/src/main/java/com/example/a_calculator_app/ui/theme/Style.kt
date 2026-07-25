@@ -10,7 +10,7 @@ import androidx.compose.ui.unit.sp
 
 
 data class AppStyle(
-    val topBarTextStyle: TextStyle,
+    //val topBarTextStyle: TextStyle,
     val headerRowTextStyle: TextStyle,
     val digitTextStyle: TextStyle,
     val keyTextStyle: TextStyle,
@@ -18,7 +18,7 @@ data class AppStyle(
 )
 
 val CompactStyle = AppStyle(
-    topBarTextStyle = TextStyle(fontSize = 18.sp, fontFamily = FontFamily.SansSerif),
+    //topBarTextStyle = TextStyle(fontSize = 18.sp, fontFamily = FontFamily.SansSerif),
     headerRowTextStyle = TextStyle(fontSize = 14.sp, fontFamily = FontFamily.Monospace),
     digitTextStyle = TextStyle(fontSize = 24.sp),
     keyTextStyle = TextStyle(fontSize = 18.sp),
@@ -26,7 +26,7 @@ val CompactStyle = AppStyle(
 )
 
 val ExpandedStyle = AppStyle(
-    topBarTextStyle = TextStyle(fontSize = 24.sp, fontFamily = FontFamily.SansSerif),
+    //topBarTextStyle = TextStyle(fontSize = 24.sp, fontFamily = FontFamily.SansSerif),
     headerRowTextStyle = TextStyle(fontSize = 18.sp, fontFamily = FontFamily.Monospace),
     digitTextStyle = TextStyle(fontSize = 48.sp),
     keyTextStyle = TextStyle(fontSize = 24.sp),
