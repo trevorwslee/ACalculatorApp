@@ -1,11 +1,8 @@
-package com.example.a_calculator_app.ui.theme
+package nobody.trevorlee.a_calculator_app.ui.theme
 
-import android.graphics.Color
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 

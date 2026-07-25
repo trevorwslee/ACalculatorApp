@@ -1,4 +1,4 @@
-package com.example.a_calculator_app.internal
+package nobody.trevorlee.a_calculator_app.internal
 
 import android.os.Bundle
 import android.webkit.WebResourceRequest

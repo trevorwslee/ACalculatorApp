@@ -1,4 +1,4 @@
-package com.example.a_calculator_app
+package nobody.trevorlee.a_calculator_app
 
 import android.content.pm.ActivityInfo
 import android.os.Bundle
@@ -9,9 +9,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
@@ -25,9 +23,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import com.example.a_calculator_app.ui.theme.ACalculatorAppTheme
-import com.example.a_calculator_app.ui.theme.LocalAppStyle
+import nobody.trevorlee.a_calculator_app.ui.theme.ACalculatorAppTheme
 
 //val BRIDGE_URL: String? = "http://192.168.0.17:8000/"
 

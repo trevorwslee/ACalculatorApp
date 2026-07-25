@@ -1,4 +1,4 @@
-package com.example.a_calculator_app.ui.theme
+package nobody.trevorlee.a_calculator_app.ui.theme
 
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme

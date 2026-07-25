@@ -1,4 +1,4 @@
-package com.example.a_calculator_app.simple
+package nobody.trevorlee.a_calculator_app.simple
 
 import android.os.Bundle
 import android.webkit.WebView
