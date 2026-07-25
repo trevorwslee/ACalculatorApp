@@ -229,13 +229,13 @@ fun HistoryRow(
         Text(
             text = state.history.value,
             //fontSize = 18.sp,
-            color = Color.LightGray,
+            color = Color.Black,
             textAlign = TextAlign.Right,
             softWrap = false,
             overflow = TextOverflow.Ellipsis,
             style = LocalAppStyle.current.historyRowTextStyle,
             modifier = Modifier
-                .background(Color.Gray)
+                .background(Color.LightGray)
                 //.border(10.dp, Color.Transparent)
                 .absolutePadding(5.dp, 0.dp, 5.dp, 0.dp)
                 .weight(1f)
