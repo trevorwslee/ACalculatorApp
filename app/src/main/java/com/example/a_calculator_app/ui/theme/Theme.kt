@@ -8,6 +8,8 @@ import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 
 private val DarkColorScheme = darkColorScheme(
@@ -39,28 +41,9 @@ fun ACalculatorAppTheme(
     dynamicColor: Boolean = true,
     content: @Composable () -> Unit
 ) {
-//    // 1. Detect the device window size class
-//    val adaptiveInfo = currentWindowAdaptiveInfo()
-//    val widthSizeClass = adaptiveInfo.windowSizeClass.windowWidthSizeClass
-//
-//    // 2. Select typography based on screen size
-//    val typography = when (widthSizeClass) {
-//        WindowWidthSizeClass.EXPANDED -> ExpandedTypography
-//        WindowWidthSizeClass.MEDIUM -> ExpandedTypography // You can map medium to expanded or compact
-//        else -> CompactTypography // Default for COMPACT (phones)
-//    }
-
-//    val localAppTypography = compositionLocalOf {
-//        // 2. Select typography based on screen size
-//        val typography = when (widthSizeClass) {
-//            WindowWidthSizeClass.EXPANDED -> ExpandedTypography
-//            WindowWidthSizeClass.MEDIUM -> ExpandedTypography // You can map medium to expanded or compact
-//            else -> CompactTypography // Default for COMPACT (phones)
-//        }
-//        typography
-//    }
-
-
+    val screenWidthDp = LocalConfiguration.current.screenWidthDp
+    // Match Material3 width breakpoints: <600 compact, 600+ medium/expanded.
+    val appStyle = if (screenWidthDp < 400) CompactStyle else ExpandedStyle
 
     val colorScheme = when {
         dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
@@ -72,10 +55,11 @@ fun ACalculatorAppTheme(
         else -> LightColorScheme
     }
 
-    MaterialTheme(
-        colorScheme = colorScheme,
-        typography = Typography,
-        //typography = typography,
-        content = content
-    )
+    CompositionLocalProvider(LocalAppStyle provides appStyle) {
+        MaterialTheme(
+            colorScheme = colorScheme,
+            typography = Typography,
+            content = content
+        )
+    }
 }

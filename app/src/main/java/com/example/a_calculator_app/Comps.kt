@@ -24,7 +24,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -82,12 +81,13 @@ fun HeaderRow(
         KeyButton("reload", AnnotatedString("ϟ"), Color.Red, Color.Yellow, bridgeWebView, state)
         Text(
             text = memory,
-            fontSize = 18.sp,
-            fontFamily = FontFamily.Monospace,
+            //fontSize = 18.sp,
+            //fontFamily = FontFamily.Monospace,
             color = Color.Yellow,
             textAlign = TextAlign.Right,
             softWrap = false,
             overflow = TextOverflow.Ellipsis,
+            style = LocalAppStyle.current.headerRowTextStyle,
             modifier = Modifier
                 .absolutePadding(0.dp, 0.dp, 10.dp, 5.dp)
                 .align(Alignment.Bottom)
@@ -95,11 +95,12 @@ fun HeaderRow(
         )
         Text(
             text = indicators,
-            fontSize = 18.sp,
-            fontFamily = FontFamily.Monospace,
+            //fontSize = 18.sp,
+            //fontFamily = FontFamily.Monospace,
             color = Color.LightGray,
             textAlign = TextAlign.Right,
             softWrap = false,
+            style = LocalAppStyle.current.headerRowTextStyle,
             modifier = Modifier
                 .absolutePadding(0.dp, 0.dp, 10.dp, 5.dp)
                 .align(Alignment.Bottom)
@@ -131,10 +132,11 @@ fun DisplayRow(state: State) {
             Text(
                 text = digit.toString(),
                 textAlign = TextAlign.Center,
-                fontSize = 48.sp,
+                //fontSize = 48.sp,
+                style = LocalAppStyle.current.digitTextStyle,
                 modifier = Modifier
                     .background(Color.White)
-                    .width(30.dp)
+                    //.width(30.dp)  // command out for smaller device
                     .border(1.dp, Color.Black)
                     .padding(1.dp)
                     .weight(1f)
@@ -221,11 +223,12 @@ fun HistoryRow(
         //KeyButton("reload", AnnotatedString("ϟ"), Color.Red, bridgeWebView, state)
         Text(
             text = state.history.value,
-            fontSize = 18.sp,
+            //fontSize = 18.sp,
             color = Color.LightGray,
             textAlign = TextAlign.Right,
             softWrap = false,
             overflow = TextOverflow.Ellipsis,
+            style = LocalAppStyle.current.historyRowTextStyle,
             modifier = Modifier
                 .background(Color.Gray)
                 //.border(10.dp, Color.Transparent)
