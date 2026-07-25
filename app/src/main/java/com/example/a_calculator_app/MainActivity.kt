@@ -9,6 +9,8 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
@@ -22,7 +24,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.a_calculator_app.ui.theme.ACalculatorAppTheme
+import com.example.a_calculator_app.ui.theme.LocalAppStyle
 
 //val BRIDGE_URL: String? = "http://192.168.0.17:8000/"
 
@@ -64,6 +68,7 @@ fun HomeTopAppBar(
         title = {
             Text(
                 text = context.resources.getString(R.string.app_name),
+                style = LocalAppStyle.current.topBarTextStyle
             )
         },
         modifier = modifier
