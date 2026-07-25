@@ -19,3 +19,4 @@ local.properties
 rust/target
 rust/out
 README.html
+/app/release/app-release.aab
