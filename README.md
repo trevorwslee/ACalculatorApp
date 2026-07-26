@@ -1,6 +1,10 @@
 
 # Implement a Simple Calculator Android App by Reusing Logics in Rust via JavaScript-WASM Interfacing
 
+|  |  |
+|--|--|
+|![](imgs/a_calculator_app.png)|![](imgs/a_calculator_app_ss_00.png)|
+
 As a followup of my previous work -- [Implement a Simple WASM Calculator in Rust Using Leptos, and with DumbCalculator](https://github.com/trevorwslee/wasm_calculator) --
 this time, I would like to explore a *not-elegant-but-work-for-me* way to reuse the logics implemented in Rust, without going through the trouble of rewriting the calculator core using Kotlin.
 
@@ -12,7 +16,7 @@ https://github.com/rustwasm/wasm-bindgen/tree/main/examples/without-a-bundler
 * You can refer to [`wasm-pack` Quickstart](https://rustwasm.github.io/docs/wasm-pack/quickstart.html) for instruction on installing `wasm-pack`
 * For Android app to interact with JavaScript (web page), Android's `WebView` is the key enabler
 * You can refer to [Install Android Studio](https://developer.android.com/studio/install) for instruction on installing ***Android Studio***
-* Other than ***Android Studio***, [VSCode](https://code.visualstudio.com/download) is used for developing the Rust code
+* Other than ***Android Studio***, [VSCode](https://code.visualstudio.com/download) is used for developing the Rust code (actually, a little bit of Rust code for call the `DumbCalculator` library; others are mostly JavaScript code)
 
 ## Starting the Project
 
@@ -27,7 +31,7 @@ Simply, create an ***Android Studio*** project `ACalculatorApp`
 
 ## Initialize for the JavaScript-Rust "Bridge"
 
-> The steps described here have nothing to do with Android app development yet, but are necessary for the JavaScript-Rust "bridge" to work.
+> The steps described in this section have nothing to do with Android app development yet, but are necessary for the JavaScript-Rust "bridge" to work.
 
 To start coding for the JavaScript-Rust "bridge":
 
@@ -61,7 +65,7 @@ To start coding for the JavaScript-Rust "bridge":
     ]
     ``` 
     Notes:
-    * if you do not yet have `wasm-pack` installed, you can install it by running
+    * if you do not yet have `wasm-pack` installed, you might consider installing it by running
         ```   
         cargo install wasm-pack
         ```
@@ -70,7 +74,7 @@ To start coding for the JavaScript-Rust "bridge":
       - `[dependencies.web-sys]`
       - `wasm-bindgen = "0.2.92"`
 
-* In the folder `rust`, create `src/lib.rs`
+* In the folder `rust`, create a Rust code file `src/lib.rs`
     ```
     use wasm_bindgen::prelude::*;
     #[wasm_bindgen]
@@ -79,7 +83,7 @@ To start coding for the JavaScript-Rust "bridge":
     }
     ```
 
-* In the folder `rust`, create `simple.html`; this HTML file is just to test the JavaScript-Rust "bridge" is working
+* In the folder `rust`, create a HTML file `simple.html`; this HTML file is just to test the JavaScript-Rust "bridge" is working
     ```
     <script type="module">
     import init, { get_greeting } from './pkg/dumb_calculator.js';
@@ -120,7 +124,7 @@ To start coding for the JavaScript-Rust "bridge":
     use wasm_bindgen::prelude::*;
     #[wasm_bindgen]
     pub fn get_greeting(who: String) -> String {
-    ...
+       ...
     }
     ```
 * `Cargo.toml` requires some special specifications 
@@ -183,19 +187,19 @@ Notice:
 - `loadUrl` is called to load the "bridge" (web page) when the `WebView` is created
 
 
-***Important*** Notes:
-- you should change the IP and port in `ENDPOINT` to yours
+***Important*** notes:
+- you should change the IP and port in `ENDPOINT` to yours; and hence, it is assumed that your `simple.html` is served (like mentioned previously) by ***Live Server*** or Python's `http.server`
 - you may get into "firewall" issue; if so, be suggested to try to use Python's `http.server` to serve the "bridge"
   since very likely your Python installation already has firewall access setup 
 
 
 More ***importantly***, modify Android permission settings in `AndroidManifest.xml`:
-* allow access to the Internet:
+* allow access to the Internet (without this, the `WebView` will not be able to load the "bridge" from the Internet, not even from your own computer)
 ```
 <manifest ...>
     <uses-permission android:name="android.permission.INTERNET" />
 ```
-* allow `WebView` "clear text" traffic  
+* allow `WebView` "clear text" traffic (you need this since the "bridge" is served by `http` instead of `https`) 
 ```
 <application ...
     android:usesCleartextTraffic="true"
@@ -208,6 +212,7 @@ More ***importantly***, modify Android permission settings in `AndroidManifest.x
         android:name=".simple.MainActivity"
         ...
 ```   
+It is very ***important*** to change the above-mentioned `ENDPOINT` to your own IP and port; and make sure `simple.html` is being served.
 
 Build and run the Android app, and see that the "bridge" loads and is working
 
@@ -216,33 +221,14 @@ Build and run the Android app, and see that the "bridge" loads and is working
 
 ## Package the "Bridge" with the App
 
-It is possible to package the "bridge" in the app's PKG. To do so, we will need to put everything (`pkg` and the HTML file) of the "bridge" to the `assets` folder like
+It is possible to package the "bridge" in the app's APK. To do so, we will need to put everything (the `pkg`folder and the HTML file) of the "bridge" to the `assets` folder like
 
 |Android Studio|VSCode|
 |--|--|
 |![](imgs/assets.png)|![](imgs/code_assets.png)|
-
-To copy the "bridge" over to `assets`, after building it by running
-```
-wasm-pack build --target web
-```
-additionally run
-```
-mkdir ../app/src/main/assets
-mkdir ../app/src/main/assets/bridge
-cp bridge.html simple.html ../app/src/main/assets/bridge/
-cp -r pkg ../app/src/main/assets/bridge/pkg
-```
-
-In order to make things easier, you can consider a script like 
-```
-set -ex
-wasm-pack build --target web
-cp *.html ../app/src/main/assets/bridge/
-cp -r pkg ../app/src/main/assets/bridge/pkg
-```
-
-Now, every time want to build the "bridge", in `rust` run `build.sh` 
+* `pkg` is the `pkg` folder in the `rust` folder, which is generated by `wasm-pack build --target web` command
+* `simple.html` is the `simple.html` originally in the `rust` folder
+* don't mind the `bridge.html` file; it is for the complete `ACalculatorApp` implementation
 
 As for the Android app side, somethings need be changed
 (*as in `internal` package*)

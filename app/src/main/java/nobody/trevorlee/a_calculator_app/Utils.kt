@@ -55,10 +55,12 @@ fun createBridgeWebView(context: Context, onLoadedCallback: (WebView) -> Unit): 
             ViewGroup.LayoutParams.MATCH_PARENT
         )
         this.settings.javaScriptEnabled = true
+        if (true) {
+            //this.settings.loadsImagesAutomatically = true
+            this.settings.cacheMode = android.webkit.WebSettings.LOAD_DEFAULT
+        }
         if (false) {
             this.settings.setDomStorageEnabled(true)
-            this.settings.loadsImagesAutomatically = true
-            this.settings.cacheMode = android.webkit.WebSettings.LOAD_DEFAULT
             this.settings.setMixedContentMode(MIXED_CONTENT_ALWAYS_ALLOW)
         }
         if (false) {
