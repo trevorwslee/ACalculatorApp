@@ -95,7 +95,7 @@ fun MainView(modifier: Modifier = Modifier) {
     }
     val bridgeWebView = remember {
         createBridgeWebView(context) { bridgeWebView: WebView ->
-            delayLoadBridge(bridgeWebView, state, 0, BRIDGE_NO_BUTTONS, showAdditionalMessages)
+            delayLoadBridge(bridgeWebView, state, 0, showAdditionalMessages = showAdditionalMessages, hideButtons = BRIDGE_NO_BUTTONS)
         }
     }
     if (true) {
