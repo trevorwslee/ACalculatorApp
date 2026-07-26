@@ -10,10 +10,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -86,18 +83,19 @@ fun HomeTopAppBar(
 fun MainView(modifier: Modifier = Modifier) {
     val context = LocalContext.current
     val bridgeUrl = remember { mutableStateOf(BridgeUrl(BRIDGE_URL, 0)) }
+    val showAdditionalMessages = LocalAppStyle.current.showAdditionalMessages
     val state = remember {
         val angleMode = mutableStateOf("deg")
         val digits = mutableStateOf("...")
         val history = mutableStateOf("")
         val opIndicator = mutableStateOf("")
-        val bracketIndictaor = mutableStateOf("")
+        val bracketIndicator = mutableStateOf("")
         val memory = mutableStateOf("")
-        State(angleMode, digits, history, opIndicator, bracketIndictaor, memory)
+        State(angleMode, digits, history, opIndicator, bracketIndicator, memory)
     }
     val bridgeWebView = remember {
         createBridgeWebView(context) { bridgeWebView: WebView ->
-            delayLoadBridge(bridgeWebView, state, 0, BRIDGE_NO_BUTTONS)
+            delayLoadBridge(bridgeWebView, state, 0, BRIDGE_NO_BUTTONS, showAdditionalMessages)
         }
     }
     if (true) {

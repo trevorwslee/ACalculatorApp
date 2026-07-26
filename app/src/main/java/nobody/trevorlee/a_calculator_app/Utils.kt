@@ -1,6 +1,8 @@
 package nobody.trevorlee.a_calculator_app
 
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.view.ViewGroup
 import android.webkit.WebResourceRequest
 import android.webkit.WebResourceResponse
@@ -16,7 +18,7 @@ import androidx.compose.ui.unit.sp
 import androidx.webkit.WebViewAssetLoader
 
 
-const val MAC_LOAD_BRIDGE_COUNT: Int = 5
+const val MAX_LOAD_BRIDGE_COUNT: Int = 5
 const val CALC_JS_VAR: String = "app_calc"
 const val CALC_DISPLAY_WIDTH: Int = 12
 
@@ -30,7 +32,7 @@ data class BridgeUrl(val url: String?, val counter: Int) {
 data class State(
     val angleMode: MutableState<String>,
     val digits: MutableState<String>, val history: MutableState<String>,
-    val opIndicator: MutableState<String>, val bracketIndictaor: MutableState<String>,
+    val opIndicator: MutableState<String>, val bracketIndicator: MutableState<String>,
     val memory: MutableState<String>
 )
 
@@ -68,6 +70,23 @@ fun createBridgeWebView(context: Context, onLoadedCallback: (WebView) -> Unit): 
                 onLoadedCallback(view!!)
             }
         }
+        if (true) {
+            this.addJavascriptInterface(object {
+                @android.webkit.JavascriptInterface
+                fun onClickedAdditionalMessage(message: String) {
+                    if (true) {
+                        System.out.println("*** clicked additional message: $message")
+                    }
+                    if (message == "project-github") {
+                        // open a browser to the GitHub project page
+                        // visit https://github.com/trevorwslee/ACalculatorApp
+                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/trevorwslee/ACalculatorApp"))
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        this@apply.context.startActivity(intent)
+                    }
+                }
+            }, "AndroidBridge")
+        }
     }
 }
 
@@ -75,28 +94,33 @@ fun delayLoadBridge(
     bridgeWebView: WebView,
     state: State,
     tried: Int,
-    hide_buttons: Boolean = false
+    showAdditionalMessages: Boolean,
+    hideButtons: Boolean = false
 ) {
     bridgeWebView.postDelayed({
         bridgeWebView.evaluateJavascript("$CALC_JS_VAR = Calculator.new($CALC_DISPLAY_WIDTH)") {
             if (it != null && it != "null") {
                 syncDisplay(bridgeWebView, state)
+                if (true) {
+                    val displayStyle = if (showAdditionalMessages) "'block'" else "'none'"
+                    bridgeWebView.evaluateJavascript("document.getElementById('additional_messages').style.display=${displayStyle}") {}
+                }
             } else {
 //                Toast.makeText(
 //                    bridgeWebView.context,
 //                    "failed to new calculator",
 //                    Toast.LENGTH_SHORT
 //                ).show()
-                if (tried < MAC_LOAD_BRIDGE_COUNT) {
+                if (tried < MAX_LOAD_BRIDGE_COUNT) {
                     state.digits.value = "." + state.digits.value
-                    delayLoadBridge(bridgeWebView, state, tried + 1)
+                    delayLoadBridge(bridgeWebView, state, tried + 1, showAdditionalMessages)
                 } else {
                     state.digits.value = "failed"
                 }
             }
         }
     }, 200L * (tried + 1))
-    if (hide_buttons) {
+    if (hideButtons) {
         bridgeWebView.evaluateJavascript("document.getElementById('buttons').style.display='none'") {}
     }
 }
@@ -225,10 +249,10 @@ fun syncDisplay(
             val indicators = it.replace("\"", "").split("|")
             if (indicators.size == 3) {
                 val opIndicator = indicators[0]
-                val bracketIndictaor = indicators[1]
+                val bracketIndicator = indicators[1]
                 val memory = indicators[2]
                 state.opIndicator.value = opIndicator
-                state.bracketIndictaor.value = bracketIndictaor
+                state.bracketIndicator.value = bracketIndicator
                 state.memory.value = memory
             }
         }

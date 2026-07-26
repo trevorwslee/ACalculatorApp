@@ -47,7 +47,12 @@
     </script>
     <div> <!-- style="color:darkgreen;background-color:azure;border:2px solid darkblue" -->
       <div id="status">... loading ...</div>
-      <!-- <div>testing DIV</div> -->
+    </div>
+    <!-- additional messages for big screen -->
+    <div id="additional_messages" style="display:none">
+      <div style="color:darkgreen">
+        * <a style="cursor:pointer" onclick="AndroidBridge.onClickedAdditionalMessage('project-github')">GitHub repo of this project</a>
+      </div>
     </div>
     <!-- buttons just for testing -->
     <div id="buttons">

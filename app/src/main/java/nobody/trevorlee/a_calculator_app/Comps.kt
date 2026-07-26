@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.absolutePadding
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
@@ -70,7 +69,7 @@ fun HeaderRow(
         verticalAlignment = Alignment.CenterVertically
     ) {
         val opIndicator = state.opIndicator.value.padStart(2, ' ')
-        val bracketIndicator = state.bracketIndictaor.value.padStart(3, ' ')
+        val bracketIndicator = state.bracketIndicator.value.padStart(3, ' ')
         val memory = state.memory.value.let {
             if (it.isNotEmpty()) {
                 "\uD83D\uDCBE${it}".padStart(15, ' ')

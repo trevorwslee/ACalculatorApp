@@ -12,7 +12,8 @@ data class AppStyle(
     val headerRowTextStyle: TextStyle,
     val digitTextStyle: TextStyle,
     val keyTextStyle: TextStyle,
-    val historyRowTextStyle: TextStyle
+    val historyRowTextStyle: TextStyle,
+    val showAdditionalMessages: Boolean
 )
 
 val CompactStyle = AppStyle(
@@ -21,6 +22,7 @@ val CompactStyle = AppStyle(
     digitTextStyle = TextStyle(fontSize = 26.sp),
     keyTextStyle = TextStyle(fontSize = 20.sp),
     historyRowTextStyle = TextStyle(fontSize = 14.sp),
+    showAdditionalMessages = false
 )
 
 val ExpandedStyle = AppStyle(
@@ -29,6 +31,7 @@ val ExpandedStyle = AppStyle(
     digitTextStyle = TextStyle(fontSize = 48.sp),
     keyTextStyle = TextStyle(fontSize = 24.sp),
     historyRowTextStyle = TextStyle(fontSize = 18.sp),
+    showAdditionalMessages = true
 )
 
 // depends on device screen size ... see ACalculatorAppTheme.appStyle
