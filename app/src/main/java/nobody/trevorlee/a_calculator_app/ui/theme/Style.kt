@@ -1,13 +1,14 @@
 package nobody.trevorlee.a_calculator_app.ui.theme
 
 import androidx.compose.runtime.staticCompositionLocalOf
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.sp
 
 
 data class AppStyle(
-    //val topBarTextStyle: TextStyle,
+    val topBarTextStyle: TextStyle,
     val headerRowTextStyle: TextStyle,
     val digitTextStyle: TextStyle,
     val keyTextStyle: TextStyle,
@@ -15,15 +16,15 @@ data class AppStyle(
 )
 
 val CompactStyle = AppStyle(
-    //topBarTextStyle = TextStyle(fontSize = 18.sp, fontFamily = FontFamily.SansSerif),
+    topBarTextStyle = TextStyle(color = Color.DarkGray, fontSize = 18.sp, fontFamily = FontFamily.SansSerif),
     headerRowTextStyle = TextStyle(fontSize = 14.sp, fontFamily = FontFamily.Monospace),
-    digitTextStyle = TextStyle(fontSize = 24.sp),
-    keyTextStyle = TextStyle(fontSize = 18.sp),
+    digitTextStyle = TextStyle(fontSize = 26.sp),
+    keyTextStyle = TextStyle(fontSize = 20.sp),
     historyRowTextStyle = TextStyle(fontSize = 14.sp),
 )
 
 val ExpandedStyle = AppStyle(
-    //topBarTextStyle = TextStyle(fontSize = 24.sp, fontFamily = FontFamily.SansSerif),
+    topBarTextStyle = TextStyle(color = Color.Blue, fontSize = 24.sp, fontFamily = FontFamily.SansSerif),
     headerRowTextStyle = TextStyle(fontSize = 18.sp, fontFamily = FontFamily.Monospace),
     digitTextStyle = TextStyle(fontSize = 48.sp),
     keyTextStyle = TextStyle(fontSize = 24.sp),

@@ -7,10 +7,13 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -18,12 +21,14 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import nobody.trevorlee.a_calculator_app.ui.theme.ACalculatorAppTheme
+import nobody.trevorlee.a_calculator_app.ui.theme.LocalAppStyle
 
 //val BRIDGE_URL: String? = "http://192.168.0.17:8000/"
 
@@ -34,7 +39,7 @@ val BRIDGE_NO_BUTTONS: Boolean = true
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+        if (false) enableEdgeToEdge()
         setContent {
             ACalculatorAppTheme {
                 Scaffold(
@@ -65,11 +70,15 @@ fun HomeTopAppBar(
         title = {
             Text(
                 text = context.resources.getString(R.string.app_name),
-                //style = LocalAppStyle.current.topBarTextStyle
+                style = LocalAppStyle.current.topBarTextStyle,
+//                modifier = Modifier.
+//                    border(2.dp, Color.Green)
             )
         },
-        windowInsets = WindowInsets(0.dp),
-        modifier = modifier
+        //windowInsets = WindowInsets(0.dp),
+        modifier = modifier/*.
+            border(2.dp, Color.Red).
+            padding(0.dp)*/
     )
 }
 
@@ -91,24 +100,43 @@ fun MainView(modifier: Modifier = Modifier) {
             delayLoadBridge(bridgeWebView, state, 0, BRIDGE_NO_BUTTONS)
         }
     }
-    Column(modifier = modifier) {
-        val url = bridgeUrl.value.url
-        CalculatorView(bridgeWebView, state)
-//        Row() {
-//            Button(onClick = {
-//                bridgeUrl.value = bridgeUrl.value.newUrl(BRIDGE_URL)
-//                //counter.value += 1
-//            }) {
-//                Text("Reload")
-//            }
-//            Text(text = url ?: "assets")
-//        }
-        BridgeWebView(bridgeWebView, bridgeUrl)
+    if (true) {
+        Column(modifier = modifier) {
+            CalculatorView(bridgeWebView, state)
+            if (false) {
+                BridgeWebView(bridgeWebView, bridgeUrl)
+            } else {
+                Box(
+                    modifier = Modifier.
+                        border(1.dp, Color.Blue).
+                        weight(1f),
+                ) {
+                    BridgeWebView(bridgeWebView, bridgeUrl)
+                }
+            }
+        }
+    } else {
+        Column(modifier = modifier) {
+            val url = bridgeUrl.value.url
+            CalculatorView(bridgeWebView, state)
+            //        Row() {
+            //            Button(onClick = {
+            //                bridgeUrl.value = bridgeUrl.value.newUrl(BRIDGE_URL)
+            //                //counter.value += 1
+            //            }) {
+            //                Text("Reload")
+            //            }
+            //            Text(text = url ?: "assets")
+            //        }
+            BridgeWebView(bridgeWebView, bridgeUrl)
+        }
     }
 }
 
 
-@Preview(showBackground = true, widthDp=360, heightDp = 640)
+@Preview(showBackground = true)
+//@Preview(showBackground = true, widthDp = 360, heightDp = 640)
+//@Preview(showBackground = true, widthDp = 411, heightDp = 914)
 @Composable
 fun ACalculatorAppPreview() {
     val state = remember {
@@ -129,8 +157,25 @@ fun ACalculatorAppPreview() {
                 .border(8.dp, Color.Black)
                 .padding(10.dp)
         ) { innerPadding ->
-            Box(modifier = Modifier.padding(innerPadding)) {
-                CalculatorView(null, state)
+            Box(modifier = Modifier.
+                padding(innerPadding)) {
+                if (false) {
+                    CalculatorView(null, state)
+                } else {
+                    Column(
+                        verticalArrangement = Arrangement.spacedBy(8.dp),  // add gaps between items
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                    ) {
+                        Text(text = "^^^ Preview Start ^^^")
+                        CalculatorView(null, state)
+                        Box(
+                            modifier = Modifier.weight(1f),
+                            contentAlignment = Alignment.BottomStart
+                        ) {
+                            Text(text = "~~~ Preview End ~~~"                            )
+                        }
+                    }
+                }
             }
         }
     }
