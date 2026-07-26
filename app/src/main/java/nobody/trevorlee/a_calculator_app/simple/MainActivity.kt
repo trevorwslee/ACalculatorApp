@@ -9,8 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.viewinterop.AndroidView
 
-val ENDPOINT: String = "http://192.168.0.17:8000/simple.html"
-//val ENDPOINT: String = "http://192.168.0.17:8000/simple_calculator.html"
+val ENDPOINT: String = "http://192.168.0.127:5500/rust/simple.html"
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

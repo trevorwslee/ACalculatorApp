@@ -2,7 +2,7 @@
 # Implement a Simple Calculator Android App by Reusing Logics in Rust via JavaScript-WASM Interfacing
 
 As a followup of my previous work -- [Implement a Simple WASM Calculator in Rust Using Leptos, and with DumbCalculator](https://github.com/trevorwslee/wasm_calculator) --
-this time, I would like to explore a *not-elegant-but-work-for-me* way to reuse the logics implemented in Rust, without going through the trouble of rewriting the core using Kotlin.
+this time, I would like to explore a *not-elegant-but-work-for-me* way to reuse the logics implemented in Rust, without going through the trouble of rewriting the calculator core using Kotlin.
 
 The idea is to use JavaScript as the "bridge" between the Android app and the WASM Rust code, which is 
 largely realized with the help of `DumbCalculator` of [rusty_dumb_tools](https://crates.io/crates/rusty_dumb_tools).
@@ -26,6 +26,8 @@ Simply, create an ***Android Studio*** project `ACalculatorApp`
 
 
 ## Initialize for the JavaScript-Rust "Bridge"
+
+> The steps described here have nothing to do with Android app development yet, but are necessary for the JavaScript-Rust "bridge" to work.
 
 To start coding for the JavaScript-Rust "bridge":
 
@@ -58,12 +60,17 @@ To start coding for the JavaScript-Rust "bridge":
         'Window',
     ]
     ``` 
-    Note that in order for `wasm-bindgen` to work, the following configurations are required
-    - `crate-type = ["cdylib"]`
-    - `[dependencies.web-sys]`
-    - `wasm-bindgen = "0.2.92"`
+    Notes:
+    * if you do not yet have `wasm-pack` installed, you can install it by running
+        ```   
+        cargo install wasm-pack
+        ```
+    * in order for `wasm-bindgen` to work (for this step), the following configurations are required
+      - `crate-type = ["cdylib"]`
+      - `[dependencies.web-sys]`
+      - `wasm-bindgen = "0.2.92"`
 
-* In the folder `rust`, create `src/lib.rc`
+* In the folder `rust`, create `src/lib.rs`
     ```
     use wasm_bindgen::prelude::*;
     #[wasm_bindgen]
@@ -72,7 +79,7 @@ To start coding for the JavaScript-Rust "bridge":
     }
     ```
 
-* In the folder `rust`, create `simple.html`
+* In the folder `rust`, create `simple.html`; this HTML file is just to test the JavaScript-Rust "bridge" is working
     ```
     <script type="module">
     import init, { get_greeting } from './pkg/dumb_calculator.js';
@@ -94,14 +101,9 @@ To start coding for the JavaScript-Rust "bridge":
   ```
   This will generate the output folders `target` and `pkg`
 
-  Note that if you do not yet have `wasm-pack` installed, you can install it by running
-  ```   
-  cargo install wasm-pack
-  ```
-
 * Start ***Live Server*** VSCode extension
-  - visit localhost:5501/rust/simple.html
-  - click the `GREET` button
+  - visit http://localhost:5501/rust/simple.html ... the port maybe `5500` (not `5501`) depending on your ***Live Server*** settings
+  - click the `GREET` button, and see that it called Rust WASM function `get_greeting` and returned the greeting message
 
 ![](imgs/try_bridge.png)  
   
@@ -109,7 +111,7 @@ To start coding for the JavaScript-Rust "bridge":
   ```
   python -m http.server
   ```
-  - visit localhost:8000/simple.html
+  - visit http://localhost:8000/simple.html
 
 ## Key Takeaways of the JavaScript-WASM Bridge
 
@@ -207,7 +209,6 @@ More ***importantly***, modify Android permission settings in `AndroidManifest.x
         ...
 ```   
 
-
 Build and run the Android app, and see that the "bridge" loads and is working
 
 ![](imgs/an_try_bridge.png)
@@ -215,7 +216,7 @@ Build and run the Android app, and see that the "bridge" loads and is working
 
 ## Package the "Bridge" with the App
 
-It is possible to package the "bridge" in the app's PKG. To do so, we will need to put everything of the "bridge" to the `assets` folder like
+It is possible to package the "bridge" in the app's PKG. To do so, we will need to put everything (`pkg` and the HTML file) of the "bridge" to the `assets` folder like
 
 |Android Studio|VSCode|
 |--|--|
@@ -233,7 +234,7 @@ cp bridge.html simple.html ../app/src/main/assets/bridge/
 cp -r pkg ../app/src/main/assets/bridge/pkg
 ```
 
-In order to make things easier, create a `rust/build.sh` like
+In order to make things easier, you can consider a script like 
 ```
 set -ex
 wasm-pack build --target web
