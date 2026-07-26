@@ -22,5 +22,6 @@ local.properties
 .vscode
 rust/target
 rust/out
+rust/target_old
 README.html
 /app/release/app-release.aab

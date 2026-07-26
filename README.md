@@ -64,27 +64,27 @@ To start coding for the JavaScript-Rust "bridge":
     - `wasm-bindgen = "0.2.92"`
 
 * In the folder `rust`, create `src/lib.rc`
-```
-use wasm_bindgen::prelude::*;
-#[wasm_bindgen]
-pub fn get_greeting(who: String) -> String {
-    format!("Hello, {}!", who)
-}
-```
+    ```
+    use wasm_bindgen::prelude::*;
+    #[wasm_bindgen]
+    pub fn get_greeting(who: String) -> String {
+        format!("Hello, {}!", who)
+    }
+    ```
 
 * In the folder `rust`, create `simple.html`
-```
-<script type="module">
-  import init, { get_greeting } from './pkg/dumb_calculator.js';
-  async function load() {
-      await init();
-      window.get_greeting = get_greeting;
-  }
-  load();
-</script>
-<button onclick="document.getElementById('msg').innerText+=get_greeting('World')">GREET</button>
-<div id="msg"></div>
-```  
+    ```
+    <script type="module">
+    import init, { get_greeting } from './pkg/dumb_calculator.js';
+    async function load() {
+        await init();
+        window.get_greeting = get_greeting;
+    }
+    load();
+    </script>
+    <button onclick="document.getElementById('msg').innerText+=get_greeting('World')">GREET</button>
+    <div id="msg"></div>
+    ```  
 
 * Try build the Rust code
 
@@ -93,6 +93,11 @@ pub fn get_greeting(who: String) -> String {
   wasm-pack build --target web
   ```
   This will generate the output folders `target` and `pkg`
+
+  Note that if you do not yet have `wasm-pack` installed, you can install it by running
+  ```   
+  cargo install wasm-pack
+  ```
 
 * Start ***Live Server*** VSCode extension
   - visit localhost:5501/rust/simple.html
@@ -109,36 +114,36 @@ pub fn get_greeting(who: String) -> String {
 ## Key Takeaways of the JavaScript-WASM Bridge
 
 * Rust functions are exposed simply by annotating them like
-```
-use wasm_bindgen::prelude::*;
-#[wasm_bindgen]
-pub fn get_greeting(who: String) -> String {
-  ...
-}
-```
+    ```
+    use wasm_bindgen::prelude::*;
+    #[wasm_bindgen]
+    pub fn get_greeting(who: String) -> String {
+    ...
+    }
+    ```
 * `Cargo.toml` requires some special specifications 
   - `crate-type = ["cdylib"]`
   - `[dependencies.web-sys]`
   - `wasm-bindgen = "0.2.92"`
 * Building not with `cargo`, but with `wasm-pack` like
-```
-wasm-pack build --target web
-```  
+    ```
+    wasm-pack build --target web
+    ```  
 * HTML page that loads the WASM Rust exposed needs be in "module" like
-```
-<script type="module">
-  import init, { get_greeting } from './pkg/dumb_calculator.js';
-  async function load() {
-      await init();
-      window.get_greeting = get_greeting;
-  }
-  load();
-</script>
-```
-Notice:
-* the `load()` async function, which calls `init` generated
-* `load()` invoked explicitly as the last thing of the *module*
-* after *load*, assign the exposed -- `get_greeting` in this case -- to `window` so that it can be accessed outside of the "module"
+    ```
+    <script type="module">
+    import init, { get_greeting } from './pkg/dumb_calculator.js';
+    async function load() {
+        await init();
+        window.get_greeting = get_greeting;
+    }
+    load();
+    </script>
+    ```
+    Notice:
+    * the `load()` async function, which calls `init` generated
+    * `load()` invoked explicitly as the last thing of the *module*
+    * after *load*, assign the exposed -- `get_greeting` in this case -- to `window` so that it can be accessed outside of the "module"
 
 
 ## Android Calling the JavaScript-WASM "Bridge"

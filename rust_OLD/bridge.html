@@ -5,7 +5,7 @@
         overflow: hidden;
     }
   </style>
-  <body>
+  <body style="color:darkgreen; background-color:azure; padding:2px">
     <script type="module">
       import init, {
         get_greeting,
@@ -18,7 +18,7 @@
           let greet = get_greeting("World");
           let elem = document.getElementById('status');
           elem.innerText = greet;
-          elem.innerHTML += "&nbsp;";
+          elem.innerHTML += "&nbsp;ACalculatorApp&nbsp;is&nbsp;running!&nbsp;";
           window.Calculator = Calculator;
       }
       load();
@@ -45,9 +45,16 @@
       }
       setTimeout(scrollStatusText, 5000);
     </script>
-    <div>
-      <div id="status" style="width:99%;color:darkgreen;background-color:azure;border:2px solid darkblue">... loading ...</div>
+    <div> <!-- style="color:darkgreen;background-color:azure;border:2px solid darkblue" -->
+      <div id="status">... loading ...</div>
     </div>
+    <!-- additional messages for big screen -->
+    <div id="additional_messages" style="display:none">
+      <div style="color:darkgreen; padding:2px; border:1px dashed blue">
+        &mdash; <a style="cursor:pointer" onclick="AndroidBridge.onClickedAdditionalMessage('project-github')">GitHub repo of this project</a>
+      </div>
+    </div>
+    <!-- buttons just for testing -->
     <div id="buttons">
       <button onclick="new_calc()">new</button>
       <button onclick="calc.push('1'); _sync_calc();">1</button>
