@@ -55,13 +55,15 @@
         <div style="font-weight:bold">Somthing that might interest you:</div>
         <ul>
           <li>
-            <a style="color:blue; cursor:pointer" onclick="AndroidBridge.onClickedAdditionalMessage('project-github')">GitHub repo of this project</a>
+            <a style="color:blue; cursor:pointer" onclick="AndroidBridge.onClickedAdditionalMessage('project-github')">
+              GitHub repo of <img width="50px" src="https://raw.githubusercontent.com/trevorwslee/ACalculatorApp/refs/heads/master/imgs/a_calculator_app.png" alt="Project Logo"/>
+            </a>
           </li>
         </ul>
       </div>
     </div>
     <!-- buttons just for testing -->
-    <div id="buttons">
+    <div id="buttons" style="display:none">
       <button onclick="new_calc()">new</button>
       <button onclick="calc.push('1'); _sync_calc();">1</button>
       <button onclick="calc.push('+'); _sync_calc();">+</button>

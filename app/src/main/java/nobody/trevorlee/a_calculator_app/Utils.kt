@@ -4,8 +4,10 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.view.ViewGroup
+import android.webkit.WebResourceError
 import android.webkit.WebResourceRequest
 import android.webkit.WebResourceResponse
+import android.webkit.WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.compose.runtime.MutableState
@@ -53,6 +55,16 @@ fun createBridgeWebView(context: Context, onLoadedCallback: (WebView) -> Unit): 
             ViewGroup.LayoutParams.MATCH_PARENT
         )
         this.settings.javaScriptEnabled = true
+        if (false) {
+            this.settings.setDomStorageEnabled(true)
+            this.settings.loadsImagesAutomatically = true
+            this.settings.cacheMode = android.webkit.WebSettings.LOAD_DEFAULT
+            this.settings.setMixedContentMode(MIXED_CONTENT_ALWAYS_ALLOW)
+        }
+        if (false) {
+            this.settings.setAllowContentAccess(true)
+            this.settings.setAllowFileAccess(true)
+        }
         this.webViewClient = object : WebViewClient() {
             override fun shouldInterceptRequest(
                 view: WebView,
@@ -65,9 +77,14 @@ fun createBridgeWebView(context: Context, onLoadedCallback: (WebView) -> Unit): 
                     return super.shouldInterceptRequest(view, request)
                 }
             }
-
             override fun onPageFinished(view: WebView?, url: String?) {
+                if (true) {
+                    println("* WebView ... loaded URL: $url")
+                }
                 onLoadedCallback(view!!)
+            }
+            override fun onReceivedError(view: WebView?, request: WebResourceRequest?, error: WebResourceError?) {
+                println("* WebView ... request $request ... error ... $error")
             }
         }
         if (true) {
@@ -75,7 +92,7 @@ fun createBridgeWebView(context: Context, onLoadedCallback: (WebView) -> Unit): 
                 @android.webkit.JavascriptInterface
                 fun onClickedAdditionalMessage(message: String) {
                     if (true) {
-                        System.out.println("*** clicked additional message: $message")
+                        println("*** clicked additional message: $message")
                     }
                     if (message == "project-github") {
                         // open a browser to the GitHub project page

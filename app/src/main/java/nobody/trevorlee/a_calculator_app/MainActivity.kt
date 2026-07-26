@@ -101,16 +101,12 @@ fun MainView(modifier: Modifier = Modifier) {
     if (true) {
         Column(modifier = modifier) {
             CalculatorView(bridgeWebView, state)
-            if (false) {
+            Box(
+                modifier = Modifier.
+                    border(1.dp, Color.Blue).
+                    weight(1f),
+            ) {
                 BridgeWebView(bridgeWebView, bridgeUrl)
-            } else {
-                Box(
-                    modifier = Modifier.
-                        border(1.dp, Color.Blue).
-                        weight(1f),
-                ) {
-                    BridgeWebView(bridgeWebView, bridgeUrl)
-                }
             }
         }
     } else {
@@ -132,9 +128,9 @@ fun MainView(modifier: Modifier = Modifier) {
 }
 
 
-@Preview(showBackground = true)
+//@Preview(showBackground = true)
 //@Preview(showBackground = true, widthDp = 360, heightDp = 640)
-//@Preview(showBackground = true, widthDp = 411, heightDp = 914)
+@Preview(showBackground = true, widthDp = 411, heightDp = 914)
 @Composable
 fun ACalculatorAppPreview() {
     val state = remember {
@@ -164,7 +160,6 @@ fun ACalculatorAppPreview() {
                         verticalArrangement = Arrangement.spacedBy(8.dp),  // add gaps between items
                         horizontalAlignment = Alignment.CenterHorizontally,
                     ) {
-                        Text(text = "^^^ Preview Start ^^^")
                         CalculatorView(null, state)
                         Box(
                             modifier = Modifier.weight(1f),
@@ -178,108 +173,3 @@ fun ACalculatorAppPreview() {
         }
     }
 }
-
-
-//val ENDPOINT: String = "http://192.168.0.17:8000/simple.html"
-//class MainActivity : ComponentActivity() {
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//        setContent {
-//            SimpleBridgeWebView()
-//        }
-//    }
-//}
-//@Composable
-//fun SimpleBridgeWebView(modifier: Modifier = Modifier) {
-//    AndroidView(
-//        factory = { context ->
-//            WebView(context).apply {
-//                this.settings.javaScriptEnabled = true
-//                this.webViewClient = WebViewClient()
-//                this.loadUrl(ENDPOINT)
-//            }
-//        },
-//        update = {}
-//    )
-//}
-
-
-//class MainActivity : ComponentActivity() {
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//        setContent {
-//            SimpleInternBridgeWebView()
-//        }
-//    }
-//}
-//@Composable
-//fun SimpleInternBridgeWebView(modifier: Modifier = Modifier) {
-//    AndroidView(
-//        factory = { context ->
-//            val assetLoader = WebViewAssetLoader.Builder()
-//                .addPathHandler("/assets/", WebViewAssetLoader.AssetsPathHandler(context))
-//                .build()
-//            WebView(context).apply {
-//                this.settings.javaScriptEnabled = true
-//                this.webViewClient = object : WebViewClient() {
-//                    override fun shouldInterceptRequest(
-//                        view: WebView,
-//                        request: WebResourceRequest
-//                    ): WebResourceResponse? {
-//                        return assetLoader.shouldInterceptRequest(request.url)
-//                    }
-//                }
-//                this.loadUrl("https://appassets.androidplatform.net/assets/bridge/simple.html")
-//            }
-//        },
-//        update = {}
-//    )
-//}
-
-
-
-//class MainActivity : ComponentActivity() {
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//        setContent {
-//            val webView = createSimpleInternBridgeWebView(this)
-//            Column() {
-//                val greeting = remember { mutableStateOf("...") }
-//                SimpleInternBridgeWebView(webView)
-//                Text(text = greeting.value)
-//                Button(onClick = {
-//                    webView.evaluateJavascript("get_greeting('Android')") {
-//                        greeting.value = it
-//                    }
-//                }) {
-//                    Text("Get Greeting")
-//                }
-//            }
-//        }
-//    }
-//}
-//@Composable
-//fun SimpleInternBridgeWebView(webView: WebView, modifier: Modifier = Modifier) {
-//    AndroidView(
-//        factory = { context -> webView },
-//        update = { webView.loadUrl("https://appassets.androidplatform.net/assets/bridge/simple.html") }
-//    )
-//}
-//fun createSimpleInternBridgeWebView(context: Context): WebView {
-//    val assetLoader = WebViewAssetLoader.Builder()
-//        .addPathHandler("/assets/", WebViewAssetLoader.AssetsPathHandler(context))
-//        .build()
-//    return WebView(context).apply {
-//        this.settings.javaScriptEnabled = true
-//        this.webViewClient = object : WebViewClient() {
-//            override fun shouldInterceptRequest(
-//                view: WebView,
-//                request: WebResourceRequest
-//            ): WebResourceResponse? {
-//                return assetLoader.shouldInterceptRequest(request.url)
-//            }
-//        }
-//        this.loadUrl("https://appassets.androidplatform.net/assets/bridge/simple.html")
-//    }
-//}
-
