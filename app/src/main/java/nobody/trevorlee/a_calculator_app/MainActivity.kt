@@ -7,6 +7,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.border
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -83,6 +84,7 @@ fun HomeTopAppBar(
 
 @Composable
 fun MainView(modifier: Modifier = Modifier) {
+    val darkMode: Boolean = isSystemInDarkTheme()
     val context = LocalContext.current
     val bridgeUrl = remember { mutableStateOf(BridgeUrl(BRIDGE_URL, 0)) }
     val versionCode = BuildConfig.VERSION_CODE
@@ -106,7 +108,7 @@ fun MainView(modifier: Modifier = Modifier) {
     }
     val bridgeWebView = remember {
         createBridgeWebView(context) { bridgeWebView: WebView ->
-            delayLoadBridge(bridgeWebView, state, 0, showAdditionalMessages = showAdditionalMessages, systemInfo = systemInfo, deviceInfo = deviceInfo, hideButtons = BRIDGE_NO_BUTTONS)
+            delayLoadBridge(bridgeWebView, state, 0, darkMode = darkMode, showAdditionalMessages = showAdditionalMessages, systemInfo = systemInfo, deviceInfo = deviceInfo, hideButtons = BRIDGE_NO_BUTTONS)
         }
     }
     if (true) {
@@ -114,7 +116,7 @@ fun MainView(modifier: Modifier = Modifier) {
             CalculatorView(bridgeWebView, state)
             Box(
                 modifier = Modifier.
-                    border(1.dp, Color.Blue).
+                    /*border(1.dp, Color.Blue).*/
                     weight(1f),
             ) {
                 BridgeWebView(bridgeWebView, bridgeUrl)

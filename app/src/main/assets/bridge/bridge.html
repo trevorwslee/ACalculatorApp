@@ -3,16 +3,32 @@
     body {
         margin: 1px;
         overflow: hidden;
+        background-color: florawhite;
     }
+    body.dark-mode {
+        background-color: royalblue;
+    }
+<!--    .dark-theme {-->
+<!--      background-color: green;-->
+<!--      color: red;-->
+<!--    }-->
     .raised-box {
-      background-color: #f0f0f0;
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
-    }
-    .raised-box.info {
-      font-size: 0.9em;
+      margin: 1px;
+      background-color: ivory;
       color: #333;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.30);
     }
-    .hyper-link {
+    .info-box {
+      margin: 1px;
+      background-color: white;
+      color: black;
+      font-size: 0.9em;
+    }
+    .info-box.dark-mode {
+      background-color: black;
+      color: white;
+    }
+    .hyperlink {
       color:blue;
       cursor:pointer
     }
@@ -22,7 +38,7 @@
       align-items: center;
       gap: 6px; /* optional spacing */
     }
-    span.link-row a.hyper-link {
+    span.link-row a.hyperlink {
       display: inline-flex;
       align-items: center;
       gap: 6px; /* optional spacing between text and img */
@@ -31,7 +47,7 @@
       display: block; /* avoids baseline wobble */
     }
   </style>
-  <body style="color:darkgreen; background-color:azure; padding:2px">
+  <body> <!-- color:darkgreen; background-color:azure; padding:2px -->
     <script type="module">
       import init, {
         get_greeting,
@@ -71,18 +87,18 @@
       }
       setTimeout(scrollStatusText, 5000);
     </script>
-    <div> <!-- style="color:darkgreen;background-color:azure;border:2px solid darkblue" -->
+    <div style="color:darkgreen; background-color:azure; padding:1px; border:1px solid darkblue">
       <div id="status">... loading ...</div>
     </div>
     <!-- system info for big screen -->
     <div id="system_info" style="display:none">
-      <div class="raised-box info">
+      <div class="info-box">
         System: <span id="system_info_text"></span>
       </div>
     </div>
     <!-- device info for big screen -->
     <div id="device_info" style="display:none">
-      <div class="raised-box info">
+      <div class="info-box">
         Device: <span id="device_info_text"></span>
       </div>
     </div>
@@ -93,9 +109,9 @@
           <div>
             <span class="link-row">
               •
-              <a class="hyper-link" onclick="AndroidBridge.onClickedAdditionalMessage('project-github')">
+              <a class="hyperlink" onclick="AndroidBridge.onClickedAdditionalMessage('project-github')">
                 GitHub repo of the project
-                <img width="40px" src="https://raw.githubusercontent.com/trevorwslee/ACalculatorApp/refs/heads/master/imgs/a_calculator_app.png" alt="Project Logo"/>
+                <img width="30px" src="https://raw.githubusercontent.com/trevorwslee/ACalculatorApp/refs/heads/master/imgs/a_calculator_app.png" alt="Project Logo"/>
               </a>
             </span>
           </div>

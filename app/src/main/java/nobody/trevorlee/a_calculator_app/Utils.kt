@@ -113,6 +113,7 @@ fun delayLoadBridge(
     bridgeWebView: WebView,
     state: State,
     tried: Int,
+    darkMode: Boolean,
     showAdditionalMessages: Boolean,
     systemInfo: String,
     deviceInfo: String,
@@ -122,13 +123,22 @@ fun delayLoadBridge(
         bridgeWebView.evaluateJavascript("$CALC_JS_VAR = Calculator.new($CALC_DISPLAY_WIDTH)") {
             if (it != null && it != "null") {
                 syncDisplay(bridgeWebView, state)
+                if (darkMode) {
+                    bridgeWebView.evaluateJavascript("document.getElementsByTagName('body')[0].classList.add('dark-mode')") {}
+                }
                 if (systemInfo.isNotEmpty()) {
                     bridgeWebView.evaluateJavascript("document.getElementById('system_info').style.display='block'") {}
                     bridgeWebView.evaluateJavascript("document.getElementById('system_info_text').innerText='${systemInfo}'") {}
+                    if (darkMode) {
+                        bridgeWebView.evaluateJavascript("document.getElementById('system_info_text').parentElement.classList.add('dark-mode')") {}
+                    }
                 }
                 if (deviceInfo.isNotEmpty()) {
                     bridgeWebView.evaluateJavascript("document.getElementById('device_info').style.display='block'") {}
                     bridgeWebView.evaluateJavascript("document.getElementById('device_info_text').innerText='${deviceInfo}'") {}
+                    if (darkMode) {
+                        bridgeWebView.evaluateJavascript("document.getElementById('device_info_text').parentElement.classList.add('dark-mode')") {}
+                    }
                 }
                 if (showAdditionalMessages) {
                     bridgeWebView.evaluateJavascript("document.getElementById('additional_messages').style.display='block'") {}
@@ -141,7 +151,7 @@ fun delayLoadBridge(
 //                ).show()
                 if (tried < MAX_LOAD_BRIDGE_COUNT) {
                     state.digits.value = "." + state.digits.value
-                    delayLoadBridge(bridgeWebView, state, tried + 1, showAdditionalMessages, systemInfo, deviceInfo, hideButtons)
+                    delayLoadBridge(bridgeWebView, state, tried + 1, darkMode, showAdditionalMessages, systemInfo, deviceInfo, hideButtons)
                 } else {
                     state.digits.value = "failed"
                 }
