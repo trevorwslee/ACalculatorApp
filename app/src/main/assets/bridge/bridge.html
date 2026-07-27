@@ -8,6 +8,10 @@
       background-color: #f0f0f0;
       box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
     }
+    .raised-box.info {
+      font-size: 0.9em;
+      color: #333;
+    }
     .hyper-link {
       color:blue;
       cursor:pointer
@@ -70,10 +74,16 @@
     <div> <!-- style="color:darkgreen;background-color:azure;border:2px solid darkblue" -->
       <div id="status">... loading ...</div>
     </div>
+    <!-- system info for big screen -->
+    <div id="system_info" style="display:none">
+      <div class="raised-box info">
+        System: <span id="system_info_text"></span>
+      </div>
+    </div>
     <!-- device info for big screen -->
     <div id="device_info" style="display:none">
-      <div class="raised-box" style="margin:3px; padding:3px">
-        Device Info: <span id="device_info_text"></span>
+      <div class="raised-box info">
+        Device: <span id="device_info_text"></span>
       </div>
     </div>
     <!-- additional messages for big screen -->

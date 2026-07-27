@@ -114,6 +114,7 @@ fun delayLoadBridge(
     state: State,
     tried: Int,
     showAdditionalMessages: Boolean,
+    systemInfo: String,
     deviceInfo: String,
     hideButtons: Boolean = false
 ) {
@@ -121,6 +122,10 @@ fun delayLoadBridge(
         bridgeWebView.evaluateJavascript("$CALC_JS_VAR = Calculator.new($CALC_DISPLAY_WIDTH)") {
             if (it != null && it != "null") {
                 syncDisplay(bridgeWebView, state)
+                if (systemInfo.isNotEmpty()) {
+                    bridgeWebView.evaluateJavascript("document.getElementById('system_info').style.display='block'") {}
+                    bridgeWebView.evaluateJavascript("document.getElementById('system_info_text').innerText='${systemInfo}'") {}
+                }
                 if (deviceInfo.isNotEmpty()) {
                     bridgeWebView.evaluateJavascript("document.getElementById('device_info').style.display='block'") {}
                     bridgeWebView.evaluateJavascript("document.getElementById('device_info_text').innerText='${deviceInfo}'") {}
@@ -136,7 +141,7 @@ fun delayLoadBridge(
 //                ).show()
                 if (tried < MAX_LOAD_BRIDGE_COUNT) {
                     state.digits.value = "." + state.digits.value
-                    delayLoadBridge(bridgeWebView, state, tried + 1, showAdditionalMessages, deviceInfo, hideButtons)
+                    delayLoadBridge(bridgeWebView, state, tried + 1, showAdditionalMessages, systemInfo, deviceInfo, hideButtons)
                 } else {
                     state.digits.value = "failed"
                 }

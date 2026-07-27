@@ -10,6 +10,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
@@ -73,7 +74,7 @@ fun HomeTopAppBar(
 //                    border(2.dp, Color.Green)
             )
         },
-        //windowInsets = WindowInsets(0.dp),
+        windowInsets = WindowInsets(0.dp),
         modifier = modifier/*.
             border(2.dp, Color.Red).
             padding(0.dp)*/
@@ -84,12 +85,15 @@ fun HomeTopAppBar(
 fun MainView(modifier: Modifier = Modifier) {
     val context = LocalContext.current
     val bridgeUrl = remember { mutableStateOf(BridgeUrl(BRIDGE_URL, 0)) }
+    val versionCode = BuildConfig.VERSION_CODE
+    val versionName = BuildConfig.VERSION_NAME
     val showAdditionalMessages = LocalAppStyle.current.showAdditionalMessages
     val screenDensityDpi = LocalConfiguration.current.densityDpi
     val screenWidthDp = LocalConfiguration.current.screenWidthDp
     val screenHeightDp = LocalConfiguration.current.screenHeightDp
     val screenWidthPixel = screenWidthDp * screenDensityDpi / 160
     val screenHeightPixel = screenHeightDp * screenDensityDpi / 160
+    val systemInfo = "v${versionName} (${versionCode})"
     val deviceInfo = "${screenWidthPixel}x${screenHeightPixel} @ $screenDensityDpi dpi / Dp: ${screenWidthDp}x${screenHeightDp}"
     val state = remember {
         val angleMode = mutableStateOf("deg")
@@ -102,7 +106,7 @@ fun MainView(modifier: Modifier = Modifier) {
     }
     val bridgeWebView = remember {
         createBridgeWebView(context) { bridgeWebView: WebView ->
-            delayLoadBridge(bridgeWebView, state, 0, showAdditionalMessages = showAdditionalMessages, deviceInfo = deviceInfo, hideButtons = BRIDGE_NO_BUTTONS)
+            delayLoadBridge(bridgeWebView, state, 0, showAdditionalMessages = showAdditionalMessages, systemInfo = systemInfo, deviceInfo = deviceInfo, hideButtons = BRIDGE_NO_BUTTONS)
         }
     }
     if (true) {
