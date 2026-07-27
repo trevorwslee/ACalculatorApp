@@ -31,7 +31,7 @@ private val CompactStyle = AppStyle(
 
 private val ExpandedStyle = AppStyle(
     darkTheme = false,
-    topBarTextStyle = TextStyle(fontSize = 24.sp, fontFamily = FontFamily.Cursive, fontWeight = FontWeight.Bold),
+    topBarTextStyle = TextStyle(fontSize = 24.sp, fontFamily = FontFamily.SansSerif, fontWeight = FontWeight.Bold),
     headerRowTextStyle = TextStyle(fontSize = 18.sp, fontFamily = FontFamily.Monospace),
     digitTextStyle = TextStyle(fontSize = 48.sp),
     keyTextStyle = TextStyle(fontSize = 24.sp),

@@ -139,6 +139,7 @@ fun DisplayRow(state: nobody.trevorlee.a_calculator_app.State) {
                 textAlign = TextAlign.Center,
                 //fontSize = 48.sp,
                 style = LocalAppStyle.current.digitTextStyle,
+                color = Color.Black,
                 modifier = Modifier
                     .background(Color.White)
                     //.width(30.dp)  // command out for smaller device
