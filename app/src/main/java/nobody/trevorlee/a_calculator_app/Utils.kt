@@ -114,15 +114,19 @@ fun delayLoadBridge(
     state: State,
     tried: Int,
     showAdditionalMessages: Boolean,
+    deviceInfo: String,
     hideButtons: Boolean = false
 ) {
     bridgeWebView.postDelayed({
         bridgeWebView.evaluateJavascript("$CALC_JS_VAR = Calculator.new($CALC_DISPLAY_WIDTH)") {
             if (it != null && it != "null") {
                 syncDisplay(bridgeWebView, state)
-                if (true) {
-                    val displayStyle = if (showAdditionalMessages) "'block'" else "'none'"
-                    bridgeWebView.evaluateJavascript("document.getElementById('additional_messages').style.display=${displayStyle}") {}
+                if (deviceInfo.isNotEmpty()) {
+                    bridgeWebView.evaluateJavascript("document.getElementById('device_info').style.display='block'") {}
+                    bridgeWebView.evaluateJavascript("document.getElementById('device_info_text').innerText='${deviceInfo}'") {}
+                }
+                if (showAdditionalMessages) {
+                    bridgeWebView.evaluateJavascript("document.getElementById('additional_messages').style.display='block'") {}
                 }
             } else {
 //                Toast.makeText(
@@ -132,7 +136,7 @@ fun delayLoadBridge(
 //                ).show()
                 if (tried < MAX_LOAD_BRIDGE_COUNT) {
                     state.digits.value = "." + state.digits.value
-                    delayLoadBridge(bridgeWebView, state, tried + 1, showAdditionalMessages)
+                    delayLoadBridge(bridgeWebView, state, tried + 1, showAdditionalMessages, deviceInfo, hideButtons)
                 } else {
                     state.digits.value = "failed"
                 }

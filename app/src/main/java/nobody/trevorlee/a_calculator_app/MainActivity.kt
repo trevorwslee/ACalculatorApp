@@ -21,6 +21,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -51,8 +52,8 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LOCKED)
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LOCKED
     }
 }
 
@@ -84,6 +85,12 @@ fun MainView(modifier: Modifier = Modifier) {
     val context = LocalContext.current
     val bridgeUrl = remember { mutableStateOf(BridgeUrl(BRIDGE_URL, 0)) }
     val showAdditionalMessages = LocalAppStyle.current.showAdditionalMessages
+    val screenDensityDpi = LocalConfiguration.current.densityDpi
+    val screenWidthDp = LocalConfiguration.current.screenWidthDp
+    val screenHeightDp = LocalConfiguration.current.screenHeightDp
+    val screenWidthPixel = screenWidthDp * screenDensityDpi / 160
+    val screenHeightPixel = screenHeightDp * screenDensityDpi / 160
+    val deviceInfo = "${screenWidthPixel}x${screenHeightPixel} @ $screenDensityDpi dpi / Dp: ${screenWidthDp}x${screenHeightDp}"
     val state = remember {
         val angleMode = mutableStateOf("deg")
         val digits = mutableStateOf("...")
@@ -95,7 +102,7 @@ fun MainView(modifier: Modifier = Modifier) {
     }
     val bridgeWebView = remember {
         createBridgeWebView(context) { bridgeWebView: WebView ->
-            delayLoadBridge(bridgeWebView, state, 0, showAdditionalMessages = showAdditionalMessages, hideButtons = BRIDGE_NO_BUTTONS)
+            delayLoadBridge(bridgeWebView, state, 0, showAdditionalMessages = showAdditionalMessages, deviceInfo = deviceInfo, hideButtons = BRIDGE_NO_BUTTONS)
         }
     }
     if (true) {

@@ -4,6 +4,28 @@
         margin: 1px;
         overflow: hidden;
     }
+    .raised-box {
+      background-color: #f0f0f0;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+    }
+    .hyper-link {
+      color:blue;
+      cursor:pointer
+    }
+    /* aligns text + image in the middle */
+    span.link-row {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px; /* optional spacing */
+    }
+    span.link-row a.hyper-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px; /* optional spacing between text and img */
+    }
+    span.link-row img {
+      display: block; /* avoids baseline wobble */
+    }
   </style>
   <body style="color:darkgreen; background-color:azure; padding:2px">
     <script type="module">
@@ -48,18 +70,25 @@
     <div> <!-- style="color:darkgreen;background-color:azure;border:2px solid darkblue" -->
       <div id="status">... loading ...</div>
     </div>
+    <!-- device info for big screen -->
+    <div id="device_info" style="display:none">
+      <div class="raised-box" style="margin:3px; padding:3px">
+        Device Info: <span id="device_info_text"></span>
+      </div>
+    </div>
     <!-- additional messages for big screen -->
     <div id="additional_messages" style="display:none">
-      <hr>
-      <div>
+      <div class="raised-box" style="margin:3px; padding:3px">
         <div style="font-weight:bold">Somthing that might interest you:</div>
-        <ul>
-          <li>
-            <a style="color:blue; cursor:pointer" onclick="AndroidBridge.onClickedAdditionalMessage('project-github')">
-              GitHub repo of <img width="40px" src="https://raw.githubusercontent.com/trevorwslee/ACalculatorApp/refs/heads/master/imgs/a_calculator_app.png" alt="Project Logo"/>
-            </a>
-          </li>
-        </ul>
+          <div>
+            <span class="link-row">
+              •
+              <a class="hyper-link" onclick="AndroidBridge.onClickedAdditionalMessage('project-github')">
+                GitHub repo of the project
+                <img width="40px" src="https://raw.githubusercontent.com/trevorwslee/ACalculatorApp/refs/heads/master/imgs/a_calculator_app.png" alt="Project Logo"/>
+              </a>
+            </span>
+          </div>
       </div>
     </div>
     <!-- buttons just for testing -->

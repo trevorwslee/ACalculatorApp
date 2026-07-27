@@ -41,8 +41,11 @@ fun ACalculatorAppTheme(
     dynamicColor: Boolean = true,
     content: @Composable () -> Unit
 ) {
+    val densityDpi = LocalConfiguration.current.densityDpi
     val screenWidthDp = LocalConfiguration.current.screenWidthDp
     val screenHeightDp = LocalConfiguration.current.screenHeightDp
+    val screenWidthPixel = screenWidthDp * densityDpi / 160
+    val screenHeightPixel = screenHeightDp * densityDpi / 160
     // Match Material3 width breakpoints: <600 compact, 600+ medium/expanded.
     val appStyle = if (screenWidthDp <= 360) CompactStyle else ExpandedStyle
 
