@@ -1,12 +1,12 @@
 <html>
   <style>
     body {
-        margin: 1px;
-        overflow: hidden;
-        background-color: powderblue;
+      margin: 1px;
+      overflow: hidden;
+      background-color: powderblue;
     }
     body.dark-mode {
-        background-color: royalblue;
+      background-color: royalblue;
     }
     .raised-box {
       margin: 4px;
@@ -18,14 +18,18 @@
     }
     .info-box {
       padding: 1px;
-      background-color: white;
-      color: black;
       font-size: 0.9em;
     }
-    .info-box.dark-mode {
-      background-color: black;
-      color: white;
-    }
+<!--    .info-box {-->
+<!--      padding: 1px;-->
+<!--      background-color: white;-->
+<!--      color: black;-->
+<!--      font-size: 0.9em;-->
+<!--    }-->
+<!--    .info-box.dark-mode {-->
+<!--      background-color: black;-->
+<!--      color: white;-->
+<!--    }-->
     .hyperlink {
       color:blue;
       cursor:pointer
@@ -85,21 +89,26 @@
       }
       setTimeout(scrollStatusText, 5000);
     </script>
-    <div style="color:darkgreen; background-color:azure; padding:1px; border:1px solid darkblue">
-      <div id="status">... loading ...</div>
+
+    <!-- status -->
+    <div style="color:darkgreen; background-color:azure; padding:2px; border-radius: 2px; border:2px solid darkblue">
+      <div id="status" style="padding:2px">... loading ...</div>
     </div>
-    <!-- system info for big screen -->
-    <div id="system_info" style="display:none">
-      <div class="info-box">
-        System: <span id="system_info_text"></span>
+
+    <!-- info -->
+    <div id="info" style="display:none">
+      <div class="raised-box">
+        <!-- system info -->
+        <div class="info-box">
+          System: <span id="system_info_text"></span>
+        </div>
+        <!-- device info -->
+        <div class="info-box">
+          Device: <span id="device_info_text"></span>
+        </div>
       </div>
     </div>
-    <!-- device info for big screen -->
-    <div id="device_info" style="display:none">
-      <div class="info-box">
-        Device: <span id="device_info_text"></span>
-      </div>
-    </div>
+
     <!-- additional messages for big screen -->
     <div id="additional_messages" style="display:none">
       <div class="raised-box">
@@ -115,6 +124,7 @@
           </div>
       </div>
     </div>
+
     <!-- buttons just for testing -->
     <div id="buttons" style="display:none">
       <button onclick="new_calc()">new</button>

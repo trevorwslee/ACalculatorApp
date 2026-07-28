@@ -9,6 +9,7 @@ import androidx.compose.ui.unit.sp
 
 
 data class AppStyle(
+    val isCompact: Boolean,
     val darkTheme: Boolean,
     val topBarTextStyle: TextStyle,
     val headerRowTextStyle: TextStyle,
@@ -20,6 +21,7 @@ data class AppStyle(
 
 
 private val CompactStyle = AppStyle(
+    isCompact = true,
     darkTheme = false,
     topBarTextStyle = TextStyle(fontSize = 18.sp, fontFamily = FontFamily.SansSerif),
     headerRowTextStyle = TextStyle(fontSize = 14.sp, fontFamily = FontFamily.Monospace),
@@ -30,6 +32,7 @@ private val CompactStyle = AppStyle(
 )
 
 private val ExpandedStyle = AppStyle(
+    isCompact = false,
     darkTheme = false,
     topBarTextStyle = TextStyle(fontSize = 24.sp, fontFamily = FontFamily.SansSerif, fontWeight = FontWeight.Bold),
     headerRowTextStyle = TextStyle(fontSize = 18.sp, fontFamily = FontFamily.Monospace),

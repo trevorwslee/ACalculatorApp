@@ -123,22 +123,26 @@ fun delayLoadBridge(
         bridgeWebView.evaluateJavascript("$CALC_JS_VAR = Calculator.new($CALC_DISPLAY_WIDTH)") {
             if (it != null && it != "null") {
                 syncDisplay(bridgeWebView, state)
+                val showInfo = systemInfo.isNotEmpty() || deviceInfo.isNotEmpty()
                 if (darkMode) {
                     bridgeWebView.evaluateJavascript("document.getElementsByTagName('body')[0].classList.add('dark-mode')") {}
                 }
                 if (systemInfo.isNotEmpty()) {
-                    bridgeWebView.evaluateJavascript("document.getElementById('system_info').style.display='block'") {}
+                    //bridgeWebView.evaluateJavascript("document.getElementById('system_info').style.display='block'") {}
                     bridgeWebView.evaluateJavascript("document.getElementById('system_info_text').innerText='${systemInfo}'") {}
-                    if (darkMode) {
-                        bridgeWebView.evaluateJavascript("document.getElementById('system_info_text').parentElement.classList.add('dark-mode')") {}
-                    }
+//                    if (darkMode) {
+//                        bridgeWebView.evaluateJavascript("document.getElementById('system_info_text').parentElement.classList.add('dark-mode')") {}
+//                    }
                 }
                 if (deviceInfo.isNotEmpty()) {
-                    bridgeWebView.evaluateJavascript("document.getElementById('device_info').style.display='block'") {}
+                    //bridgeWebView.evaluateJavascript("document.getElementById('device_info').style.display='block'") {}
                     bridgeWebView.evaluateJavascript("document.getElementById('device_info_text').innerText='${deviceInfo}'") {}
-                    if (darkMode) {
-                        bridgeWebView.evaluateJavascript("document.getElementById('device_info_text').parentElement.classList.add('dark-mode')") {}
-                    }
+//                    if (darkMode) {
+//                        bridgeWebView.evaluateJavascript("document.getElementById('device_info_text').parentElement.classList.add('dark-mode')") {}
+//                    }
+                }
+                if (showInfo) {
+                    bridgeWebView.evaluateJavascript("document.getElementById('info').style.display='block'") {}
                 }
                 if (showAdditionalMessages) {
                     bridgeWebView.evaluateJavascript("document.getElementById('additional_messages').style.display='block'") {}

@@ -17,6 +17,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -73,14 +74,10 @@ fun HomeTopAppBar(
             Text(
                 text = context.resources.getString(R.string.app_name),
                 style = LocalAppStyle.current.topBarTextStyle,
-//                modifier = Modifier.
-//                    border(2.dp, Color.Green)
             )
         },
-        //windowInsets = WindowInsets(0.dp),  // if edge-to-edge, then windowInsets appear better
-        modifier = modifier/*.
-            border(2.dp, Color.Red).
-            padding(0.dp)*/
+        windowInsets = if (LocalAppStyle.current.isCompact) WindowInsets(0.dp) else TopAppBarDefaults.windowInsets,  // if edge-to-edge, then windowInsets appear better
+        modifier = modifier
     )
 }
 
