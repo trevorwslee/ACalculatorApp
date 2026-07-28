@@ -39,7 +39,9 @@ val BRIDGE_NO_BUTTONS: Boolean = true
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (false) enableEdgeToEdge()
+        if (true) {
+            enableEdgeToEdge()
+        }
         setContent {
             ACalculatorAppTheme {
                 Scaffold(
@@ -75,7 +77,7 @@ fun HomeTopAppBar(
 //                    border(2.dp, Color.Green)
             )
         },
-        windowInsets = WindowInsets(0.dp),
+        //windowInsets = WindowInsets(0.dp),  // if edge-to-edge, then windowInsets appear better
         modifier = modifier/*.
             border(2.dp, Color.Red).
             padding(0.dp)*/
