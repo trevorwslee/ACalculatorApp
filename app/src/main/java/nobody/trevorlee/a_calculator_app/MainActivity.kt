@@ -76,6 +76,7 @@ fun HomeTopAppBar(
                 style = LocalAppStyle.current.topBarTextStyle,
             )
         },
+        //colors = TopAppBarDefaults.topAppBarColors(),
         windowInsets = if (LocalAppStyle.current.isCompact) WindowInsets(0.dp) else TopAppBarDefaults.windowInsets,  // if edge-to-edge, then windowInsets appear better
         modifier = modifier
     )
