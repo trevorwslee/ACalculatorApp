@@ -11,7 +11,7 @@ android {
         applicationId = "nobody.trevorlee.a_calculator_app"
         minSdk = 24
         targetSdk = 36 // was 34
-        versionCode = 4
+        versionCode = 5
         versionName = "0.2"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"

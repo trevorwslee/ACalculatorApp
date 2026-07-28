@@ -1,3 +1,11 @@
+---
+title: Implement a Simple Calculator Android App by Reusing Logics in Rust via JavaScript-WASM Interfacing
+published: true
+tags: 'android, webassembly, rust'
+id: 1852855
+date: '2024-05-14T16:33:25Z'
+---
+
 
 # Implement a Simple Calculator Android App by Reusing Logics in Rust via JavaScript-WASM Interfacing
 
@@ -17,6 +25,8 @@ https://github.com/rustwasm/wasm-bindgen/tree/main/examples/without-a-bundler
 * For Android app to interact with JavaScript (web page), Android's `WebView` is the key enabler
 * You can refer to [Install Android Studio](https://developer.android.com/studio/install) for instruction on installing ***Android Studio***
 * Other than ***Android Studio***, [VSCode](https://code.visualstudio.com/download) is used for developing the Rust code (actually, a little bit of Rust code for call the `DumbCalculator` library; others are mostly JavaScript code)
+
+If you cannot wait to try out a complete pre-built one, you can install one from Google Play Store -- [ACalculatorApp](https://play.google.com/store/apps/details?id=nobody.trevorlee.a_calculator_app&hl=en-US&ah=CtQ_lxl8tKdAiBNIZwSryVeoTZI)
 
 ## Starting the Project
 
